@@ -28,7 +28,9 @@ Vu Tran|
 Yazan Saleh|
 
 ## Definition of Done
+- [ ] Code is compiled and executable
 - [ ] Accomplish the task requirements
 - [ ] Place file in the right location
 - [ ] Follow code quality guideline (Black for Python, Tidyverse for R)
-- [ ] Unit tests
+- [ ] Write unit tests
+- [ ] Pass existing unit tests
