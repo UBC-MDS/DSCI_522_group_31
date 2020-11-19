@@ -7,8 +7,7 @@
   * Demonstrate data science skillset for future employers
 
 ## Communication
-* Daily meetings at 11:00 AM GMT+7
-* Slack group
+* Slack group: short status updates
 
 Member | Availability
 -------|---------
@@ -28,15 +27,15 @@ Yazan Saleh|
 
 Member | Reviewer
 -------|---------
-Jingjing Zhi|
-Mai Le|
-Vu Tran|
-Yazan Saleh|
+Jingjing Zhi| Vu Tran
+Mai Le| Yazan 
+Vu Tran| Mai Le
+Yazan Saleh| Jingjing
 
 ## Definition of Done
 - [ ] Code is compiled and executable
 - [ ] Accomplish the task requirements
 - [ ] Place file in the right location
-- [ ] Follow code quality guideline (Black for Python, Tidyverse for R)
+- [ ] Follow code quality guideline (Black for Python, Tidyverse for R): docstring, comments, script file structure
 - [ ] Write unit tests
 - [ ] Pass existing unit tests
