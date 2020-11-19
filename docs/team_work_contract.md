@@ -14,7 +14,7 @@ Member | Availability
 -------|---------
 Jingjing Zhi|
 Mai Le| 9:00-18:00, 21:00-22:00 GMT+7 (18:00-03:00, 6:00-7:00 PST)
-Vu Tran|
+Vu Tran| 10:00-24:00 GMT+7 (19:00-9:00 PST) - inform me in advance (1-2 days) for any team meeting
 Yazan Saleh|
 
 ## Task collaboration
