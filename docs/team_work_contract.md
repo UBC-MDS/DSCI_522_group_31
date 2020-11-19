@@ -1,5 +1,11 @@
 # Team Work Contract
 
+## Group Objectives
+* Base goal:
+  * Achieve good grade for DSCI-522 course: complete project objectives
+* Stretch goal:
+  * Demonstrate data science skillset for future employers
+
 ## Communication
 * Daily meetings at 11:00 AM GMT+7
 * Slack group
