@@ -1,13 +1,13 @@
 # Online Purchasing Intention Predictor
 
 - author: Yazan Saleh
-- contributors:
+- contributors: Mai Le, Tran Doan Khanh Vu, Jingjing Zhi
 
 A data analysis project for DSCI 522 (Data Science workflows) aiming to predict purchasing intentions of online shoppers.
 
 ## Introduction
 
-In this project, the question we are interested in answering is: given pageview and session information data for an e-commerce platform, is the visitor intending to make a purchase or not? This, in essence, is a binary classification problem where the target class, namely intent to purchase, can be `TRUE` or `FALSE`.
+In this project, the question we are interested in answering is: given visitor pageview and session information data for an e-commerce platform, is the visitor intending to make a purchase or not? This, in essence, is a binary classification problem where the target class, namely intent to purchase, can be `TRUE` or `FALSE`.
 
 With the rising popularity of online shopping, particularly in the wake of the 2020 coronavirus pandemic, there exists a strong growth opportunity for businesses employing e-commerce solutions. While increasing overall traffic to online stores is a critical first step, higher traffic does not always convert into increased sales. Online visitors may exit the site without making a purchase for a variety of reasons including: loading times, website layout, pricing, amongst others.
 
