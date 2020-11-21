@@ -26,7 +26,7 @@ def main(url, out_file):
         return
     
     # Step 2: Read the data into Pandas data frame
-    input = pd.read_csv(url, header=None)
+    input = pd.read_csv(url)
     
     # Step 3: Create the path if it does not exist
     dirpath = os.path.dirname(out_file)
