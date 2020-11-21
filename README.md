@@ -26,15 +26,15 @@ Once our optimal model and hyperparameters are identified, the model will be re-
 
 To replicate this analysis, please follow these steps:
 
-- Clone this GitHub repository
-- Create and activate a conda envrionment using the `env.yaml` at the root of this project by running the following command at the root directory of the project. (Alternatively, you can manually install the dependencies listed in the `env.yaml` file)
+1. Clone this GitHub repository
+2. Create and activate a conda envrionment using the `env.yaml` at the root of this project by running the following command at the root directory of the project. (Alternatively, you can manually install the dependencies listed in the `env.yaml` file)
 
 ```bash
 conda env create --file env.yml
 conda activate online_shopping_prediction_env
 ```
 
-- Run the following commands at the command line/terminal from the root directory of this project:
+3. Run the following commands at the command line/terminal from the root directory of this project:
 
 ```bash
 #TODO: directions to run download script and render EDA report.
