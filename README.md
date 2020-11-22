@@ -22,6 +22,9 @@ Considering this is a binary classification problem, several classification algo
 
 Once our optimal model and hyperparameters are identified, the model will be re-fitted against the entire training data set. Its performance will then be evaluated on the test set. A few different scoring metrics, such as accuracy and f1 score, will looked at and presented in the final report. A confusion matrix will also be included to visualize the extent of misclassification errors, if any.
 
+## Reports
+Exploratory Data Analysis: [link](/eda/eda.ipynb)
+
 ## Usage
 
 To replicate this analysis, please follow these steps:
