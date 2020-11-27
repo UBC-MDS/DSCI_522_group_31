@@ -15,7 +15,6 @@ Options:
 
 import os
 import pandas as pd
-import requests
 from sklearn.model_selection import train_test_split
 from docopt import docopt
 import feather
@@ -25,10 +24,9 @@ opt = docopt(__doc__)
 def main(in_file, out_training_file, out_test_file, random_state, test_size):
     print("Start cleanup script")
     
-    # Step 1: Read the input file
+    # Step 1: Read the data into Pandas data frame
     in_extension = in_file[in_file.rindex(".")+1:]
     
-    # Step 2: Read the data into Pandas data frame
     print("Read in the file:", in_file)
     if in_extension == "csv":
         input = pd.read_csv(in_file)
@@ -42,6 +40,7 @@ def main(in_file, out_training_file, out_test_file, random_state, test_size):
         print("Unknown data type", in_file)
         return
     
+    # Step 2: Split data into training and test data
     train_df, test_df = train_test_split(input, test_size=float(test_size), random_state=int(random_state))
     print("Split the data frame with test_size=", test_size, " and random_state=" , random_state, sep="")
     
