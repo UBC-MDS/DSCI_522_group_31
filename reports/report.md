@@ -11,27 +11,6 @@ Yazan Saleh
 -   [Results & Discussion](#results-discussion)
 -   [References](#references)
 
-    library(here)
-
-    ## Warning: package 'here' was built under R version 4.0.3
-
-    ## here() starts at C:/Users/User/MDS/522/DSCI_522_group_31
-
-    library(tidyverse)
-
-    ## -- Attaching packages -------------------------------------------------------------------------- tidyverse 1.3.0 --
-
-    ## v ggplot2 3.3.2     v purrr   0.3.4
-    ## v tibble  3.0.3     v dplyr   1.0.2
-    ## v tidyr   1.1.2     v stringr 1.4.0
-    ## v readr   1.3.1     v forcats 0.5.0
-
-    ## -- Conflicts ----------------------------------------------------------------------------- tidyverse_conflicts() --
-    ## x dplyr::filter() masks stats::filter()
-    ## x dplyr::lag()    masks stats::lag()
-
-    library(knitr)
-
 Summary
 -------
 
