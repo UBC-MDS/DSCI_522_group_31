@@ -9,10 +9,8 @@ output:
     toc: true
 ---
 
-```{r setup}
-library(here)
-library(tidyverse)
-library(knitr)
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse, quietly = TRUE)
 ```
 
 ## Summary
