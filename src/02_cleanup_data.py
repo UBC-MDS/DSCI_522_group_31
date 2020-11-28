@@ -3,7 +3,7 @@
 
 """Load a csv / feather data file from a local input file and split into test and training data set and write to 2 separate local output files. The output file will be either a csv or a feather file format, which is determined by the extension.
 
-Usage: python src/cleanup_data.py --in_file=<in_file> --out_training_file=<out_training_file> --out_test_file=<out_test_file> [--random_state=<random_state>] [--test_size=<test_size>]
+Usage: src/cleanup_data.py --in_file=<in_file> --out_training_file=<out_training_file> --out_test_file=<out_test_file> [--random_state=<random_state>] [--test_size=<test_size>]
 
 Options:
 --in_file=<in_file>                        The path and the filename and the extension where we want to load from our disk
@@ -31,11 +31,7 @@ def main(in_file, out_training_file, out_test_file, random_state, test_size):
     if in_extension == "csv":
         input = pd.read_csv(in_file)
     elif in_extension == "feather":
-        input = feather.read_dataframe(path, )
-
-        # convert the first row into headers
-        input.columns = input.iloc[0]
-        input = input[1:]
+        input = feather.read_dataframe(in_file, )
     else:
         print("Unknown data type", in_file)
         return
