@@ -12,6 +12,7 @@ output:
 ```{r setup}
 library(here)
 library(tidyverse)
+library(knitr)
 ```
 
 ## Summary
@@ -30,7 +31,7 @@ Being able to predict purchasing intentions can be a valuable tool because it co
 
 ### Data
 
-The data set used in this project is the "Online Shoppers Purchasing Intention" dataset provided by the [Gözalan Group](http://www.gozalangroup.com.tr/) and used by Sakar et. al in their analysis published in [Neural Computing and Applications](https://link.springer.com/article/10.1007/s00521-018-3523-0) [\@Sakar2019]. The data set was sourced from UCI's Machine Learning Repository [\@Dua:2019] at this [link](https://archive.ics.uci.edu/ml/datasets/Online+Shoppers+Purchasing+Intention+Dataset). The specific file used for the analysis found [here](https://archive.ics.uci.edu/ml/machine-learning-databases/00468/online_shoppers_intention.csv). Each row in the data set contains pageview and session information belonging to a different visitor that browsed [Columbia](https://www.columbia.com.tr), an online e-commerce platform based in Turkey. Each row also contains the target class `REVENUE`, a boolean flag indicating whether that user session contributed to revenue or not. Pageview data includes the type of pages that the visitor browsed to and the duration spent on each page. Session information includes visitor-identifying data such as browser information, operating system information as well visitor location and type.
+The data set used in this project is the "Online Shoppers Purchasing Intention" dataset provided by the [Gözalan Group](http://www.gozalangroup.com.tr/) and used by Sakar et. al in their analysis published in [Neural Computing and Applications](https://link.springer.com/article/10.1007/s00521-018-3523-0) [@Sakar2019]. The data set was sourced from UCI's Machine Learning Repository [@Dua:2019] at this [link](https://archive.ics.uci.edu/ml/datasets/Online+Shoppers+Purchasing+Intention+Dataset). The specific file used for the analysis found [here](https://archive.ics.uci.edu/ml/machine-learning-databases/00468/online_shoppers_intention.csv). Each row in the data set contains pageview and session information belonging to a different visitor that browsed [Columbia](https://www.columbia.com.tr), an online e-commerce platform based in Turkey. Each row also contains the target class `REVENUE`, a boolean flag indicating whether that user session contributed to revenue or not. Pageview data includes the type of pages that the visitor browsed to and the duration spent on each page. Session information includes visitor-identifying data such as browser information, operating system information as well visitor location and type.
 
 High level information about the dataset variables can be found below:
 
@@ -65,7 +66,7 @@ Considering this is a binary classification problem, several algorithms can be w
 
 After selecting the best model with the best hyperparameters, we reduced the number of features by eliminating the non-important ones using recursive feature elimination (RFE).
 
-The analysis was performed using the Python programming language [\@Python] along with the following packages: Altair [\@vanderplas2018altair], docopt [\@docopt], feather [\@featherpy], knitr [\@knitr], pandas [\@mckinney2010data], and Scikit-learn [\@pedregosa2011scikit]. The code used to conduct this analysis can be found [here](https://github.com/UBC-MDS/DSCI_522_group_31).
+The analysis was performed using the Python programming language [@Python] along with the following packages: Altair [@vanderplas2018altair], docopt [@docopt], feather [@featherpy], knitr [@knitr], pandas [@mckinney2010data], and Scikit-learn [@pedregosa2011scikit]. The code used to conduct this analysis can be found [here](https://github.com/UBC-MDS/DSCI_522_group_31).
 
 ## Results & Discussion
 
@@ -112,6 +113,6 @@ knitr::kable(cr)
 
 In the context of the model's applicability, false negatives can be argued to be more detrimental than false positives as they represent untapped potential revenue sources. Therefore, we should prefer a model with higher recall (sensitivty) over one with higher precision, which was the case here. Nevertheless, and given the non-small number of false negatives, our model might need further refinement before implementation in the real-world.
 
-One way of improving this model would be to employ oversampling to address the class imbalance problem. Although we attempted to address class imbalance by adjusting the weights associated with the target class, Sakar et. al were able to achieve much better `f1` scores using oversampled data sets and with similar algorithms (namely SVC and random forest) [\@Sakar2019]. Further, we could use a different method to identify the most important features for this classification problem and compare performance to the recursive feature elimination method we employed here. Sakar et. al feature selection results include some features from the same dataset, such as `Product related` and `Administrative`, that were not identified by our RFE search. This indicates that visiting `Product related` and `Administrative` pages is important to the classification algorithm although our model and current feature selection methodology was not able to identify that.
+One way of improving this model would be to employ oversampling to address the class imbalance problem. Although we attempted to address class imbalance by adjusting the weights associated with the target class, Sakar et. al were able to achieve much better `f1` scores using oversampled data sets and with similar algorithms (namely SVC and random forest) [@Sakar2019]. Further, we could use a different method to identify the most important features for this classification problem and compare performance to the recursive feature elimination method we employed here. Sakar et. al feature selection results include some features from the same dataset, such as `Product related` and `Administrative`, that were not identified by our RFE search. This indicates that visiting `Product related` and `Administrative` pages is important to the classification algorithm although our model and current feature selection methodology was not able to identify that.
 
 # References
