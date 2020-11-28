@@ -16,7 +16,7 @@ online shoppers given browser session data and pageview data. Given our
 dataset, random forest classifier was identified as the best model
 compared to support vector machine and logistic regression classifiers.
 Although the model performed relatively well in terms of accuracy with a
-score 0.88, its performance was less robust when scored using `f1`
+score of 0.88, its performance was less robust when scored using `f1`
 metric. Specifically, the model had an `f1` score of 0.66 and
 mis-classified 376 observations, 131 of which were false negatives. The
 131 incorrect classifications are significant as they represent
@@ -54,13 +54,14 @@ Usage
 
 To replicate this analysis, please follow these steps:
 
-Step 1: Clone this GitHub repository Step 2: Create and activate a conda
-envrionment using the `env.yaml` at the root of this project by running
-the following command at the root directory of the project.
-(Alternatively, you can manually install the dependencies listed in the
-`env.yaml` file)
+Step 1: Clone this GitHub repository
 
-    conda env create --file env.yml
+Step 2: Create and activate a conda envrionment using the `env.yaml` at
+the root of this project by running the following command at the root
+directory of the project. (Alternatively, you can manually install the
+dependencies listed in the `env.yaml` file)
+
+    conda env create --file env.yaml
     conda activate online_shopping_prediction_env
 
 Step 3: Run the following commands at the command line/terminal from the
