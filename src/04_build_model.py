@@ -330,7 +330,7 @@ def test_store_cross_val_results():
 def test_tune_hyperparams():
     # unit test for tune_hyperparams function
     data_path = "../data/processed"
-    train_df, test_df = read_data(data_path)
+    train_df, _ = read_data(data_path)
     X_train, y_train = train_df.drop(columns=["Revenue"]), train_df["Revenue"]
     random_state = 2020
 
@@ -369,7 +369,7 @@ def test_tune_hyperparams():
         preprocessor, X_train, y_train, random_state
     )
     # TODO: use toy data set instead
-    assert hyperparams_best_model.shape[0] == 2, "Missing data of hyperparameter tuning"
+    assert len(hyperparams_best_model) == 2, "Missing data of hyperparameter tuning"
 
 
 def test_find_best_model():
@@ -513,6 +513,8 @@ def run_all_tests():
 # region main function
 def main(data_path, out_report_path, random_state=2020):
     # read the data files, split into X and y
+    print("Start build_model script")
+    print("Read the data files, split into X and y")
     random_state = int(random_state)
     train_df, test_df = read_data(data_path)
     X_train, y_train = train_df.drop(columns=["Revenue"]), train_df["Revenue"]
@@ -551,26 +553,34 @@ def main(data_path, out_report_path, random_state=2020):
     )
 
     # tuning hyperparameters for SVC, RandomForestClassifier and LogisticRegression
+    print(
+        "Tuning hyperparameters for SVC, RandomForestClassifier and LogisticRegression"
+    )
     hyperparams_best_model = tune_hyperparams(
         preprocessor, X_train, y_train, random_state
     )
 
     # find the best model
+    print("Finding the best model using cross validation")
     _, best_model, _ = find_best_model(
         hyperparams_best_model, X_train, y_train, random_state
     )
 
     # get result plots
+    print("Creating plots and classification report")
     plot, class_report = plot_results(
         best_model, X_test, y_test, ["No-revenue", "Revenue"]
     )
 
     # save plots to report path
+    print("Saving reports")
     save_plots(out_report_path, plot, class_report)
 
     # save model to disk
+    print("Saving the best model for later use")
     pickle.dump(best_model, open(data_path + "/best_model.sav", "wb"))
 
+    print("End build_model script")
     return
 
 
