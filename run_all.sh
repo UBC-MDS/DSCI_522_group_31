@@ -16,4 +16,4 @@ python src/02_cleanup_data.py --in_file=data/raw/online_shoppers_intention.csv -
 python src/03_generate_eda.py --in_file=data/processed/train_data.csv --out_folder=img/eda/
 
 # Step 4: build machine learning models
-python src/04_build_model.py --data_path=data/processed --out_report_path=img/reports --random_state=2020
+python src/04_build_model.py --data_path=data/processed --out_report_path=img/reports --random_state=2020 --tune_params=True

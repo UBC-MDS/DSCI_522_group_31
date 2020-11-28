@@ -1,0 +1,4 @@
+,index,fit_time,score_time,test_accuracy,test_f1,test_recall
+0,Logistic Regression,0.2141,0.0222,0.8548,0.6149,0.7554
+1,Random Forest,8.3427,0.1351,0.8841,0.6709,0.7702
+2,SVC,7.7296,0.4416,0.8714,0.6374,0.7364

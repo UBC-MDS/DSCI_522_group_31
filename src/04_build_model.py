@@ -2,12 +2,13 @@
 # date: 2020-11-27
 """Reads the data from the data clean-up script, performs some statistical or machine learning analysis and summarizes the results as a figure(s) and a table(s).
 
-Usage: src/04_build_model.py --data_path=<data_path> --out_report_path=<out_report_path> [--random_state=<random_state>]
+Usage: src/04_build_model.py --data_path=<data_path> --out_report_path=<out_report_path> [--random_state=<random_state>] [--tune_params=<tune_params>]
 
 Options:
 --data_path=<data_path>                The path containing train & test dataset
 --out_report_path=<out_report_path>    The path to export model scores in figures and tables
 --random_state=<random_state>          The random state that we want to use for splitting. [default: 2020]
+--tune_params=<tune_params>            Whether we need to tune hyperparameters or not
 """
 
 # region import libraries
@@ -118,7 +119,7 @@ def store_cross_val_results(score_map, model_name, scores, results_df):
     results_df[model_name] = d
 
 
-def tune_hyperparams(preprocessor, X, y, random_state):
+def tune_hyperparams(preprocessor, X, y, random_state, tune_hyperparams=True):
     """tuning hyperparameters for LogisticRegression, RandomForestClassifier and SVC with preprocessor on X, y with random_state using RandomizedSearchCV
 
     Args:
@@ -133,35 +134,60 @@ def tune_hyperparams(preprocessor, X, y, random_state):
     Examples:
         perparams_best_model = tune_hyperparams(preprocessor, X_train, y_train, 2020)
     """
-    classifiers = {
-        "Logistic Regression": {
-            "clf": LogisticRegression(
-                class_weight="balanced", random_state=random_state, max_iter=1000
-            ),
-            "param_dist": {"logisticregression__C": loguniform(1e-3, 1e3)},
-        },
-        "Random Forest": {
-            "clf": RandomForestClassifier(
-                class_weight="balanced", random_state=random_state
-            ),
-            "param_dist": {
-                "randomforestclassifier__n_estimators": scipy.stats.randint(
-                    low=10, high=300
+    if tune_hyperparams == True:
+        classifiers = {
+            "Logistic Regression": {
+                "clf": LogisticRegression(
+                    class_weight="balanced", random_state=random_state, max_iter=1000
                 ),
-                "randomforestclassifier__max_depth": scipy.stats.randint(
-                    low=2, high=20
+                "param_dist": {"logisticregression__C": loguniform(1e-3, 1e3)},
+            },
+            "Random Forest": {
+                "clf": RandomForestClassifier(
+                    class_weight="balanced", random_state=random_state
                 ),
+                "param_dist": {
+                    "randomforestclassifier__n_estimators": scipy.stats.randint(
+                        low=10, high=300
+                    ),
+                    "randomforestclassifier__max_depth": scipy.stats.randint(
+                        low=2, high=20
+                    ),
+                },
             },
-        },
-        "SVC": {
-            "clf": SVC(class_weight="balanced", random_state=random_state),
-            "param_dist": {
-                "svc__gamma": [0.1, 1.0, 10, 100],
-                "svc__C": [0.1, 1.0, 10, 100],
+            "SVC": {
+                "clf": SVC(class_weight="balanced", random_state=random_state),
+                "param_dist": {
+                    "svc__gamma": [0.1, 1.0, 10, 100],
+                    "svc__C": [0.1, 1.0, 10, 100],
+                },
             },
-        },
-    }
-
+        }
+    else:
+        classifiers = {
+            "Logistic Regression": {
+                "clf": LogisticRegression(
+                    class_weight="balanced", random_state=random_state, max_iter=1000
+                ),
+                "param_dist": {"logisticregression__C": [0.008713608033492446]},
+            },
+            "Random Forest": {
+                "clf": RandomForestClassifier(
+                    class_weight="balanced", random_state=random_state
+                ),
+                "param_dist": {
+                    "randomforestclassifier__n_estimators": [65],
+                    "randomforestclassifier__max_depth": [12],
+                },
+            },
+            "SVC": {
+                "clf": SVC(class_weight="balanced", random_state=random_state),
+                "param_dist": {
+                    "svc__gamma": [0.1],
+                    "svc__C": [1.0],
+                },
+            },
+        }
     hyperparams_best_model = {}
 
     # find the best hyperparameters of each model
@@ -185,7 +211,13 @@ def tune_hyperparams(preprocessor, X, y, random_state):
     return hyperparams_best_model
 
 
-def find_best_model(hyperparams_best_model, X, y, random_state):
+def find_best_model(
+    hyperparams_best_model,
+    X,
+    y,
+    random_state,
+    path="../data/processed/model_selection_result.csv",
+):
     """find the best model among 3 models using cross validation
 
     Args:
@@ -216,6 +248,7 @@ def find_best_model(hyperparams_best_model, X, y, random_state):
         store_cross_val_results(clf_score_map, name, cv_scores, results)
     results_df = pd.DataFrame(results).T
     print(results_df)
+    results_df.reset_index().to_csv(path)
     best_model_name = results_df.iloc[np.argmax(results_df["test_f1"])].name
     best_model = hyperparams_best_model[best_model_name]["best_model"]
     best_params = hyperparams_best_model[best_model_name]["best_params"]
@@ -290,7 +323,7 @@ def plot_results(model, X, y, labels):
     )
 
 
-def save_plots(filepath, plot, class_report):
+def save_plots(filepath, plot, class_report, filenames):
     """save plot as a png figure, confusion_matrix as a feather file
 
     Args:
@@ -304,9 +337,9 @@ def save_plots(filepath, plot, class_report):
         save_plots(plot, class_report, "img/reports")
 
     """
-    plot.figure_.savefig(filepath + "/confusion_matrix_plot.png")
+    plot.figure_.savefig(filepath + "/" + filenames[0])
     df = pd.DataFrame(class_report).T.reset_index()
-    df.to_feather(filepath + "/classification_report.feather")
+    df.to_csv(filepath + "/" + filenames[1] + ".csv")
 
 
 # endregion
@@ -376,7 +409,7 @@ def test_find_best_model():
     # unit test for find_best_model function
 
     data_path = "../data/processed"
-    train_df, test_df = read_data(data_path)
+    train_df, _ = read_data(data_path)
     X_train, y_train = train_df.drop(columns=["Revenue"]), train_df["Revenue"]
     random_state = 2020
 
@@ -415,7 +448,7 @@ def test_find_best_model():
         preprocessor, X_train, y_train, random_state
     )
 
-    best_model_name, best_model, best_params = find_best_model(
+    _, best_model, _ = find_best_model(
         hyperparams_best_model, X_train, y_train, random_state
     )
 
@@ -431,9 +464,14 @@ def test_save_plots():
     plot, class_report = plot_results(
         best_model, X_train, y_train, ["No-revenue", "Revenue"]
     )
-    save_plots("../img/reports/", plot, class_report)
+    save_plots(
+        "../img/reports/",
+        plot,
+        class_report,
+        ("confusion_matrix_test", "classification_report_test"),
+    )
     assert os.path.exists(
-        "../img/reports/confusion_matrix_plot.png"
+        "../img/reports/confusion_matrix_test.png"
     ), "No file was created"
 
 
@@ -443,9 +481,7 @@ def test_plot_results():
     best_model = pickle.load(open(data_path + "/best_model.sav", "rb"))
     train_df, _ = read_data(data_path)
     X_train, y_train = train_df.drop(columns=["Revenue"]), train_df["Revenue"]
-    plot, class_report = plot_results(
-        best_model, X_train, y_train, ["No-revenue", "Revenue"]
-    )
+    plot, _ = plot_results(best_model, X_train, y_train, ["No-revenue", "Revenue"])
     assert plot is not None, "No plot was created"
 
 
@@ -511,11 +547,12 @@ def run_all_tests():
 # endregion
 
 # region main function
-def main(data_path, out_report_path, random_state=2020):
+def main(data_path, out_report_path, random_state=2020, tune_params=True):
     # read the data files, split into X and y
     print("Start build_model script")
     print("Read the data files, split into X and y")
     random_state = int(random_state)
+    tune_params = bool(tune_params)
     train_df, test_df = read_data(data_path)
     X_train, y_train = train_df.drop(columns=["Revenue"]), train_df["Revenue"]
     X_test, y_test = test_df.drop(columns=["Revenue"]), test_df["Revenue"]
@@ -563,7 +600,11 @@ def main(data_path, out_report_path, random_state=2020):
     # find the best model
     print("Finding the best model using cross validation")
     _, best_model, _ = find_best_model(
-        hyperparams_best_model, X_train, y_train, random_state
+        hyperparams_best_model,
+        X_train,
+        y_train,
+        random_state,
+        data_path + "/model_selection_result.csv",
     )
 
     # get result plots
@@ -574,12 +615,42 @@ def main(data_path, out_report_path, random_state=2020):
 
     # save plots to report path
     print("Saving reports")
-    save_plots(out_report_path, plot, class_report)
+    save_plots(
+        out_report_path,
+        plot,
+        class_report,
+        ("confusion_matrix", "classification_report"),
+    )
 
     # save model to disk
     print("Saving the best model for later use")
     pickle.dump(best_model, open(data_path + "/best_model.sav", "wb"))
 
+    # try feature selection
+    print("Building the model with RFE")
+
+    fs_model = make_pipeline(
+        preprocessor,
+        RFECV(Ridge(random_state=random_state), cv=10),
+        RandomForestClassifier(max_depth=12, n_estimators=275),
+    )
+    fs_model.fit(X_train, y_train)
+
+    plot, class_report = plot_results(
+        fs_model, X_test, y_test, ["No-revenue", "Revenue"]
+    )
+
+    # save plots to report path
+    print("Saving reports")
+    save_plots(
+        out_report_path,
+        plot,
+        class_report,
+        (
+            "confusion_matrix_feature_selection",
+            "classification_report_feature_selection",
+        ),
+    )
     print("End build_model script")
     return
 
@@ -590,6 +661,7 @@ if __name__ == "__main__":
         opt["--data_path"],
         opt["--out_report_path"],
         opt["--random_state"],
+        opt["--tune_params"],
     )
 
 # endregion
