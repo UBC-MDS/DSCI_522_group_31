@@ -11,42 +11,29 @@ Yazan Saleh
 -   [Results & Discussion](#results-discussion)
 -   [References](#references)
 
-``` r
-library(here)
-```
+    library(here)
 
-    ## Warning: package 'here' was built under R version 4.0.2
+    ## Warning: package 'here' was built under R version 4.0.3
 
-    ## here() starts at /Volumes/Data/study/ubc-mds/ubc-mds-github/block_3/dsci_522/labs/DSCI_522_group_31
+    ## here() starts at C:/Users/User/MDS/522/DSCI_522_group_31
 
-``` r
-library(tidyverse)
-```
+    library(tidyverse)
 
-    ## Warning: package 'tidyverse' was built under R version 4.0.2
+    ## -- Attaching packages -------------------------------------------------------------------------- tidyverse 1.3.0 --
 
-    ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+    ## v ggplot2 3.3.2     v purrr   0.3.4
+    ## v tibble  3.0.3     v dplyr   1.0.2
+    ## v tidyr   1.1.2     v stringr 1.4.0
+    ## v readr   1.3.1     v forcats 0.5.0
 
-    ## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
-    ## ✓ tibble  3.0.4     ✓ dplyr   1.0.2
-    ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-    ## ✓ readr   1.4.0     ✓ forcats 0.5.0
-
-    ## Warning: package 'ggplot2' was built under R version 4.0.2
-
-    ## Warning: package 'tibble' was built under R version 4.0.2
-
-    ## Warning: package 'tidyr' was built under R version 4.0.2
-
-    ## Warning: package 'readr' was built under R version 4.0.2
-
-    ## Warning: package 'dplyr' was built under R version 4.0.2
-
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## -- Conflicts ----------------------------------------------------------------------------- tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
-## Summary
+    library(knitr)
+
+Summary
+-------
 
 In this project, we compare 3 different algorithms with the aim of
 building a classification model to predict purchasing intentions of
@@ -62,7 +49,8 @@ potential sources of missed revenue for e-commerce businesses.
 Therefore, we recommend improving this model prior to deployment in the
 real-world.
 
-## Introduction
+Introduction
+------------
 
 With the rising popularity of online shopping, particularly in the wake
 of the 2020 coronavirus pandemic, there exists a strong growth
@@ -88,7 +76,8 @@ with a given portfolio of visitors may use the machine learning
 algorithm to predict its revenue conversion rates which can be a
 valuable metric in financial modeling.
 
-## Methodology
+Methodology
+-----------
 
 ### Data
 
@@ -97,8 +86,8 @@ Intention” dataset provided by the [Gözalan
 Group](http://www.gozalangroup.com.tr/) and used by Sakar et. al in
 their analysis published in [Neural Computing and
 Applications](https://link.springer.com/article/10.1007/s00521-018-3523-0)
-\[@Sakar2019\]. The data set was sourced from UCI’s Machine Learning
-Repository \[@Dua:2019\] at this
+(Sakar et al. 2019). The data set was sourced from UCI’s Machine
+Learning Repository (Dua and Graff 2017) at this
 [link](https://archive.ics.uci.edu/ml/datasets/Online+Shoppers+Purchasing+Intention+Dataset).
 The specific file used for the analysis found
 [here](https://archive.ics.uci.edu/ml/machine-learning-databases/00468/online_shoppers_intention.csv).
@@ -131,7 +120,7 @@ High level information about the dataset variables can be found below:
 | 13    | Browser                  | Internet browser used by the visitor                                                                                                                           |
 | 14    | Region                   | Demographic region when the user accessing the site                                                                                                            |
 | 15    | TrafficType              | From which source the visitor arrived at the site                                                                                                              |
-| 16    | VisitorType              | Visitor type as “New Visitor,” “Returning Visitor,” and “Other”                                                                                                |
+| 16    | VisitorType              | Visitor type as “New Visitor”, “Returning Visitor”, and “Other”                                                                                                |
 | 17    | Weekend                  | If the visiting day is during weekend                                                                                                                          |
 | 18    | Revenue                  | Prediction target                                                                                                                                              |
 
@@ -141,8 +130,8 @@ of feature 7-9: come from metrics measured by “Google Analytics” for
 each page on the site.
 
 Among those features, there are some features that might be important to
-predict the target: ‘ProductRelated\_Duration,’ ‘BounceRates,’
-‘ExitRates,’ ‘PageValues,’ ‘Month,’ ‘TrafficType’ and ‘VisitorType.’
+predict the target: ‘ProductRelated\_Duration’, ‘BounceRates’,
+‘ExitRates’, ‘PageValues’, ‘Month’, ‘TrafficType’ and ‘VisitorType’.
 
 ### Analysis
 
@@ -164,14 +153,16 @@ After selecting the best model with the best hyperparameters, we reduced
 the number of features by eliminating the non-important ones using
 recursive feature elimination (RFE).
 
-The analysis was performed using the Python programming language
-\[@Python\] along with the following packages: Altair
-\[@vanderplas2018altair\], docopt \[@docopt\], feather \[@featherpy\],
-knitr \[@knitr\], pandas \[@mckinney2010data\], and Scikit-learn
-\[@pedregosa2011scikit\]. The code used to conduct this analysis can be
-found [here](https://github.com/UBC-MDS/DSCI_522_group_31).
+The analysis was performed using the Python programming language (Van
+Rossum and Drake 2009) along with the following packages: Altair
+(VanderPlas et al. 2018), docopt (de Jonge 2020), feather (McKinney
+2019), knitr (Xie 2014), pandas (McKinney and others 2010), and
+Scikit-learn (Pedregosa et al. 2011). The code used to conduct this
+analysis can be found
+[here](https://github.com/UBC-MDS/DSCI_522_group_31).
 
-## Results & Discussion
+Results & Discussion
+--------------------
 
 Prior to fitting the model, we looked at how the distribution of each of
 the features in the training set varies between the two classes (revenue
@@ -195,14 +186,11 @@ entire training dataset, random forest classifier with hyperparameters
 `max_depth = 13` and `n_estimators = 65` was the best performing model
 according to `f1` score.
 
-``` r
-comparison_table = read_csv("../data/processed/model_selection_result.csv")
-```
+    comparison_table = read_csv("../data/processed/model_selection_result.csv")
 
     ## Warning: Missing column names filled in: 'X1' [1]
 
-    ## 
-    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Parsed with column specification:
     ## cols(
     ##   X1 = col_double(),
     ##   index = col_character(),
@@ -213,11 +201,9 @@ comparison_table = read_csv("../data/processed/model_selection_result.csv")
     ##   test_recall = col_double()
     ## )
 
-``` r
-comparison_table <- comparison_table %>% select(-X1)
-colnames(comparison_table)[1]="Model"
-knitr::kable(comparison_table)
-```
+    comparison_table <- comparison_table %>% select(-X1)
+    colnames(comparison_table)[1]="Model"
+    knitr::kable(comparison_table)
 
 | Model               | fit\_time | score\_time | test\_accuracy | test\_f1 | test\_recall |
 |:--------------------|----------:|------------:|---------------:|---------:|-------------:|
@@ -241,14 +227,11 @@ Figure.2 Confusion Matrix before Feature Selection
 
 </div>
 
-``` r
-cr <- read_csv("../img/reports/classification_report.csv")
-```
+    cr <- read_csv("../img/reports/classification_report.csv")
 
     ## Warning: Missing column names filled in: 'X1' [1]
 
-    ## 
-    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Parsed with column specification:
     ## cols(
     ##   X1 = col_double(),
     ##   index = col_character(),
@@ -258,11 +241,9 @@ cr <- read_csv("../img/reports/classification_report.csv")
     ##   support = col_double()
     ## )
 
-``` r
-cr <- cr %>% select(-X1)
-colnames(cr)[1]="Class"
-knitr::kable(cr)
-```
+    cr <- cr %>% select(-X1)
+    colnames(cr)[1]="Class"
+    knitr::kable(cr)
 
 | Class        | precision |    recall |  f1-score |      support |
 |:-------------|----------:|----------:|----------:|-------------:|
@@ -289,14 +270,11 @@ Figure.3 Confusion Matrix after Feature Selection
 
 </div>
 
-``` r
-cr <- read_csv("../img/reports/classification_report_feature_selection.csv")
-```
+    cr <- read_csv("../img/reports/classification_report_feature_selection.csv")
 
     ## Warning: Missing column names filled in: 'X1' [1]
 
-    ## 
-    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Parsed with column specification:
     ## cols(
     ##   X1 = col_double(),
     ##   index = col_character(),
@@ -306,11 +284,9 @@ cr <- read_csv("../img/reports/classification_report_feature_selection.csv")
     ##   support = col_double()
     ## )
 
-``` r
-cr <- cr %>% select(-X1)
-colnames(cr)[1]="Class"
-knitr::kable(cr)
-```
+    cr <- cr %>% select(-X1)
+    colnames(cr)[1]="Class"
+    knitr::kable(cr)
 
 | Class        | precision |    recall |  f1-score |      support |
 |:-------------|----------:|----------:|----------:|-------------:|
@@ -333,7 +309,7 @@ address the class imbalance problem. Although we attempted to address
 class imbalance by adjusting the weights associated with the target
 class, Sakar et. al were able to achieve much better `f1` scores using
 oversampled data sets and with similar algorithms (namely SVC and random
-forest) \[@Sakar2019\]. Further, we could use a different method to
+forest) (Sakar et al. 2019). Further, we could use a different method to
 identify the most important features for this classification problem and
 compare performance to the recursive feature elimination method we
 employed here. Sakar et. al feature selection results include some
@@ -343,4 +319,84 @@ indicates that visiting `Product related` and `Administrative` pages is
 important to the classification algorithm although our model and current
 feature selection methodology was not able to identify that.
 
-# References
+References
+==========
+
+<div id="refs" class="references hanging-indent">
+
+<div id="ref-docopt">
+
+de Jonge, Edwin. 2020. *Docopt: Command-Line Interface Specification
+Language*. <https://CRAN.R-project.org/package=docopt>.
+
+</div>
+
+<div id="ref-Dua:2019">
+
+Dua, Dheeru, and Casey Graff. 2017. “UCI Machine Learning Repository.”
+University of California, Irvine, School of Information; Computer
+Sciences. <http://archive.ics.uci.edu/ml>.
+
+</div>
+
+<div id="ref-featherpy">
+
+McKinney, Wes. 2019. *Feather: Simple Wrapper Library to the Apache
+Arrow-Based Feather File Format*. <https://github.com/wesm/feather>.
+
+</div>
+
+<div id="ref-mckinney2010data">
+
+McKinney, Wes, and others. 2010. “Data Structures for Statistical
+Computing in Python.” In *Proceedings of the 9th Python in Science
+Conference*, 445:51–56. Austin, TX.
+
+</div>
+
+<div id="ref-pedregosa2011scikit">
+
+Pedregosa, Fabian, Gaël Varoquaux, Alexandre Gramfort, Vincent Michel,
+Bertrand Thirion, Olivier Grisel, Mathieu Blondel, et al. 2011.
+“Scikit-Learn: Machine Learning in Python.” *Journal of Machine Learning
+Research* 12 (Oct): 2825–30.
+
+</div>
+
+<div id="ref-Sakar2019">
+
+Sakar, C. Okan, S. Olcay Polat, Mete Katircioglu, and Yomi Kastro. 2019.
+“Real-Time Prediction of Online Shoppers’ Purchasing Intention Using
+Multilayer Perceptron and Lstm Recurrent Neural Networks.” *Neural
+Computing and Applications* 31 (10): 6893–6908.
+<https://doi.org/10.1007/s00521-018-3523-0>.
+
+</div>
+
+<div id="ref-vanderplas2018altair">
+
+VanderPlas, Jacob, Brian Granger, Jeffrey Heer, Dominik Moritz, Kanit
+Wongsuphasawat, Arvind Satyanarayan, Eitan Lees, Ilia Timofeev, Ben
+Welsh, and Scott Sievert. 2018. “Altair: Interactive Statistical
+Visualizations for Python.” *Journal of Open Source Software* 3 (32):
+1057.
+
+</div>
+
+<div id="ref-Python">
+
+Van Rossum, Guido, and Fred L. Drake. 2009. *Python 3 Reference Manual*.
+Scotts Valley, CA: CreateSpace.
+
+</div>
+
+<div id="ref-knitr">
+
+Xie, Yihui. 2014. “Knitr: A Comprehensive Tool for Reproducible Research
+in R.” In *Implementing Reproducible Computational Research*, edited by
+Victoria Stodden, Friedrich Leisch, and Roger D. Peng. Chapman;
+Hall/CRC. <http://www.crcpress.com/product/isbn/9781466561595>.
+
+</div>
+
+</div>
