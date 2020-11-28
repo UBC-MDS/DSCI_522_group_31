@@ -11,3 +11,6 @@ python src/01_download_data.py --url=https://archive.ics.uci.edu/ml/machine-lear
 
 # Step 2: Split data
 python src/02_cleanup_data.py --in_file=data/raw/online_shoppers_intention.csv --out_training_file=data/processed/train_data.csv --out_test_file=data/processed/test_data.csv
+
+# Step 3: Generate EDA png files
+python src/03_generate_eda.py --in_file=data/processed/train_data.csv --out_folder=img/eda/
