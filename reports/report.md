@@ -20,7 +20,7 @@ online shoppers given browser session data and pageview data. Given our
 dataset, random forest classifier was identified as the best model
 compared to support vector machine and logistic regression classifiers.
 Although the model performed relatively well in terms of accuracy with a
-score 0.88, its performance was less robust when scored using `f1`
+score of 0.88, its performance was less robust when scored using `f1`
 metric. Specifically, the model had an `f1` score of 0.66 and
 mis-classified 376 observations, 131 of which were false negatives. The
 131 incorrect classifications are significant as they represent
@@ -146,10 +146,10 @@ Results & Discussion
 Prior to fitting the model, we looked at how the distribution of each of
 the features in the training set varies between the two classes (revenue
 generator: orange, not a revenue generator: blue). This visualization
-shows us overlap in the distribution of features across the two target
-classes, although their spreads differ in some cases. As a result, we
-opted to include all features in the initial analysis and subsequently
-try to use RFE to better guide us at feature selection.
+shows us overlapping in the distribution of features across the two
+target classes, although their spreads differ in some cases. As a
+result, we opted to include all features in the initial analysis and
+subsequently try to use RFE to better guide us at feature selection.
 
 <div class="figure">
 
