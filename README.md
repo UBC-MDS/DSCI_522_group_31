@@ -54,21 +54,17 @@ Usage
 
 To replicate this analysis, please follow these steps:
 
-1.  Clone this GitHub repository
-2.  Create and activate a conda envrionment using the `env.yaml` at the
-    root of this project by running the following command at the root
-    directory of the project. (Alternatively, you can manually install
-    the dependencies listed in the `env.yaml` file)
-
-<!-- -->
+Step 1: Clone this GitHub repository Step 2: Create and activate a conda
+envrionment using the `env.yaml` at the root of this project by running
+the following command at the root directory of the project.
+(Alternatively, you can manually install the dependencies listed in the
+`env.yaml` file)
 
     conda env create --file env.yml
     conda activate online_shopping_prediction_env
 
-1.  Run the following commands at the command line/terminal from the
-    root directory of this project:
-
-<!-- -->
+Step 3: Run the following commands at the command line/terminal from the
+root directory of this project:
 
     ./run_all.sh
 
