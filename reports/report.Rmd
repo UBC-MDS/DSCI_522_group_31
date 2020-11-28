@@ -4,7 +4,7 @@ bibliography: ../docs/online_purchasing_intention_refs.bib
 author: "Yazan Saleh"
 date: "27/11/2020"
 output: 
-  html_document:
+  github_document:
     toc: true
 ---
 
