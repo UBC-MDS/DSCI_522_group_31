@@ -155,9 +155,9 @@ subsequently try to use RFE to better guide us at feature selection.
 
 <div class="figure">
 
-<img src="../img/eda/feature_density.png" alt="**Figure.1 Density plots of numerical features by target class**" width="80%" height="70%" />
+<img src="../img/eda/feature_density.png" alt="&lt;b&gt;Figure.1 Density plots of numerical features by target class&lt;/b&gt;" width="80%" height="70%" />
 <p class="caption">
-**Figure.1 Density plots of numerical features by target class**
+<b>Figure.1 Density plots of numerical features by target class</b>
 </p>
 
 </div>
@@ -184,9 +184,9 @@ confusion matrix shown below (Figure 2).
 
 <div class="figure">
 
-<img src="../img/reports/confusion_matrix.png" alt="**Figure.2 Confusion Matrix before Feature Selection**" width="80%" height="70%" />
+<img src="../img/reports/confusion_matrix.png" alt="&lt;b&gt;Figure.2 Confusion Matrix before Feature Selection&lt;/b&gt;" width="80%" height="70%" />
 <p class="caption">
-**Figure.2 Confusion Matrix before Feature Selection**
+<b>Figure.2 Confusion Matrix before Feature Selection</b>
 </p>
 
 </div>
@@ -212,9 +212,9 @@ shown below (Table 4 & Figure 3).
 
 <div class="figure">
 
-<img src="../img/reports/confusion_matrix_feature_selection.png" alt="**Figure.3 Confusion Matrix after Feature Selection**" width="80%" height="70%" />
+<img src="../img/reports/confusion_matrix_feature_selection.png" alt="&lt;b&gt;Figure.3 Confusion Matrix after Feature Selection&lt;/b&gt;" width="80%" height="70%" />
 <p class="caption">
-**Figure.3 Confusion Matrix after Feature Selection**
+<b>Figure.3 Confusion Matrix after Feature Selection</b>
 </p>
 
 </div>
