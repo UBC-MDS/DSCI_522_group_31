@@ -53,6 +53,7 @@ High level information about the dataset variables can be found below:
 | 16    | VisitorType              | Visitor type as "New Visitor", "Returning Visitor", and "Other"                                                                                                |
 | 17    | Weekend                  | If the visiting day is during weekend                                                                                                                          |
 | 18    | Revenue                  | Prediction target                                                                                                                                              |
+**Table 1: Data set description**
 
 Values of feature 1-6 are derived from the visited pages' URL and reflected in real time when a user takes any actions on the site. Values of feature 7-9: come from metrics measured by "Google Analytics" for each page on the site.
 
@@ -70,43 +71,43 @@ The analysis was performed using the Python programming language [@Python] along
 
 Prior to fitting the model, we looked at how the distribution of each of the features in the training set varies between the two classes (revenue generator: orange, not a revenue generator: blue). This visualization shows us overlapping in the distribution of features across the two target classes, although their spreads differ in some cases. As a result, we opted to include all features in the initial analysis and subsequently try to use RFE to better guide us at feature selection.
 
-```{r echo=FALSE, fig.cap = "Figure.1 Density plots of numerical features by target class", out.width='80%',out.height='70%'}
+```{r echo=FALSE, fig.cap = "**Figure.1 Density plots of numerical features by target class**", out.width='80%',out.height='70%'}
 knitr::include_graphics('../img/eda/feature_density.png')
 ```
 
-Following random search hyperparameter optimization and fitting on the entire training dataset, random forest classifier with hyperparameters `max_depth = 13` and `n_estimators = 65` was the best performing model according to `f1` score.
+Following random search hyperparameter optimization and fitting on the entire training dataset, random forest classifier with hyperparameters `max_depth = 13` and `n_estimators = 65` was the best performing model according to `f1` score. (Table 2)
 
-```{r load model_comparison}
+```{r load model_comparison, echo=FALSE, warning=FALSE, message=FALSE}
 comparison_table = read_csv("../data/processed/model_selection_result.csv")
 comparison_table <- comparison_table %>% select(-X1)
 colnames(comparison_table)[1]="Model"
-knitr::kable(comparison_table)
+knitr::kable(comparison_table, caption = "**Table 2: Model selection result**")
 ```
 
-The model performance on the test set was less robust as `f1` score dropped to 0.66 when considering our class of interest, presence of revenue, as the positive class. Overall accuracy was relatively high at 0.88 although the model mis-classified 376 observations consisting of 245 false positives and 131 false negatives as per the confusion matrix shown below.
+The model performance on the test set was less robust as `f1` score dropped to 0.67 when considering our class of interest, presence of revenue, as the positive class. Overall accuracy was relatively high at 0.88 (Table 3) although the model mis-classified 363 observations consisting of 246 false positives and 117 false negatives as per the confusion matrix shown below (Figure 2).
 
-```{r echo=FALSE, fig.cap = "Figure.2 Confusion Matrix before Feature Selection", out.width='80%',out.height='70%'}
+```{r echo=FALSE, fig.cap = "**Figure.2 Confusion Matrix before Feature Selection**", out.width='80%',out.height='70%'}
 knitr::include_graphics("../img/reports/confusion_matrix.png")
 ```
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 cr <- read_csv("../img/reports/classification_report.csv")
 cr <- cr %>% select(-X1)
 colnames(cr)[1]="Class"
-knitr::kable(cr)
+knitr::kable(cr, caption = "**Table 3: Classification report of the best model before applying feature selection**")
 ```
 
-We used recursive feature elimination (RFE) to attempt to achieve better classification performance and identify the most important features. RFE retained 37/74 features after transformation which came from 10 features out of the original 17 as being most important to the classification problem. Nevertheless, fitting the model on the new dataset that includes these features only did not significantly affect performance as shown below.
+We used recursive feature elimination (RFE) to attempt to achieve better classification performance and identify the most important features. RFE retained 37/74 features after transformation which came from 10 features out of the original 17 as being most important to the classification problem. Nevertheless, fitting the model on the new dataset that includes these features only did not significantly affect performance as shown below (Table 4 & Figure 3).
 
-```{r echo=FALSE, fig.cap = "Figure.3 Confusion Matrix after Feature Selection", out.width='80%',out.height='70%'}
+```{r echo=FALSE, fig.cap = "**Figure.3 Confusion Matrix after Feature Selection**", out.width='80%',out.height='70%'}
 knitr::include_graphics("../img/reports/confusion_matrix_feature_selection.png")
 ```
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 cr <- read_csv("../img/reports/classification_report_feature_selection.csv")
 cr <- cr %>% select(-X1)
 colnames(cr)[1]="Class"
-knitr::kable(cr)
+knitr::kable(cr, caption = "**Table 4: Classification report of the best model after applying feature selection**")
 ```
 
 In the context of the model's applicability, false negatives can be argued to be more detrimental than false positives as they represent untapped potential revenue sources. Therefore, we should prefer a model with higher recall (sensitivty) over one with higher precision, which was the case here. Nevertheless, and given the non-small number of false negatives, our model might need further refinement before implementation in the real-world.

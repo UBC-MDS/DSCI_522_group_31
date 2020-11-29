@@ -103,6 +103,8 @@ High level information about the dataset variables can be found below:
 | 17    | Weekend                  | If the visiting day is during weekend                                                                                                                          |
 | 18    | Revenue                  | Prediction target                                                                                                                                              |
 
+**Table 1: Data set description**
+
 Values of feature 1-6 are derived from the visited pages’ URL and
 reflected in real time when a user takes any actions on the site. Values
 of feature 7-9: come from metrics measured by “Google Analytics” for
@@ -153,9 +155,9 @@ subsequently try to use RFE to better guide us at feature selection.
 
 <div class="figure">
 
-<img src="../img/eda/feature_density.png" alt="Figure.1 Density plots of numerical features by target class" width="80%" height="70%" />
+<img src="../img/eda/feature_density.png" alt="**Figure.1 Density plots of numerical features by target class**" width="80%" height="70%" />
 <p class="caption">
-Figure.1 Density plots of numerical features by target class
+**Figure.1 Density plots of numerical features by target class**
 </p>
 
 </div>
@@ -163,26 +165,7 @@ Figure.1 Density plots of numerical features by target class
 Following random search hyperparameter optimization and fitting on the
 entire training dataset, random forest classifier with hyperparameters
 `max_depth = 13` and `n_estimators = 65` was the best performing model
-according to `f1` score.
-
-    comparison_table = read_csv("../data/processed/model_selection_result.csv")
-
-    ## Warning: Missing column names filled in: 'X1' [1]
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   X1 = col_double(),
-    ##   index = col_character(),
-    ##   fit_time = col_double(),
-    ##   score_time = col_double(),
-    ##   test_accuracy = col_double(),
-    ##   test_f1 = col_double(),
-    ##   test_recall = col_double()
-    ## )
-
-    comparison_table <- comparison_table %>% select(-X1)
-    colnames(comparison_table)[1]="Model"
-    knitr::kable(comparison_table)
+according to `f1` score. (Table 2)
 
 | Model               | fit\_time | score\_time | test\_accuracy | test\_f1 | test\_recall |
 |:--------------------|----------:|------------:|---------------:|---------:|-------------:|
@@ -190,39 +173,23 @@ according to `f1` score.
 | Random Forest       |    8.3427 |      0.1351 |         0.8841 |   0.6709 |       0.7702 |
 | SVC                 |    7.7296 |      0.4416 |         0.8714 |   0.6374 |       0.7364 |
 
+**Table 2: Model selection result**
+
 The model performance on the test set was less robust as `f1` score
-dropped to 0.66 when considering our class of interest, presence of
+dropped to 0.67 when considering our class of interest, presence of
 revenue, as the positive class. Overall accuracy was relatively high at
-0.88 although the model mis-classified 376 observations consisting of
-245 false positives and 131 false negatives as per the confusion matrix
-shown below.
+0.88 (Table 3) although the model mis-classified 363 observations
+consisting of 246 false positives and 117 false negatives as per the
+confusion matrix shown below (Figure 2).
 
 <div class="figure">
 
-<img src="../img/reports/confusion_matrix.png" alt="Figure.2 Confusion Matrix before Feature Selection" width="80%" height="70%" />
+<img src="../img/reports/confusion_matrix.png" alt="**Figure.2 Confusion Matrix before Feature Selection**" width="80%" height="70%" />
 <p class="caption">
-Figure.2 Confusion Matrix before Feature Selection
+**Figure.2 Confusion Matrix before Feature Selection**
 </p>
 
 </div>
-
-    cr <- read_csv("../img/reports/classification_report.csv")
-
-    ## Warning: Missing column names filled in: 'X1' [1]
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   X1 = col_double(),
-    ##   index = col_character(),
-    ##   precision = col_double(),
-    ##   recall = col_double(),
-    ##   `f1-score` = col_double(),
-    ##   support = col_double()
-    ## )
-
-    cr <- cr %>% select(-X1)
-    colnames(cr)[1]="Class"
-    knitr::kable(cr)
 
 | Class        | precision |    recall |  f1-score |      support |
 |:-------------|----------:|----------:|----------:|-------------:|
@@ -232,40 +199,25 @@ Figure.2 Confusion Matrix before Feature Selection
 | macro avg    | 0.7772386 | 0.8329510 | 0.8001667 | 3083.0000000 |
 | weighted avg | 0.8969272 | 0.8822575 | 0.8876167 | 3083.0000000 |
 
+**Table 3: Classification report of the best model before applying
+feature selection**
+
 We used recursive feature elimination (RFE) to attempt to achieve better
 classification performance and identify the most important features. RFE
 retained 37/74 features after transformation which came from 10 features
 out of the original 17 as being most important to the classification
 problem. Nevertheless, fitting the model on the new dataset that
 includes these features only did not significantly affect performance as
-shown below.
+shown below (Table 4 & Figure 3).
 
 <div class="figure">
 
-<img src="../img/reports/confusion_matrix_feature_selection.png" alt="Figure.3 Confusion Matrix after Feature Selection" width="80%" height="70%" />
+<img src="../img/reports/confusion_matrix_feature_selection.png" alt="**Figure.3 Confusion Matrix after Feature Selection**" width="80%" height="70%" />
 <p class="caption">
-Figure.3 Confusion Matrix after Feature Selection
+**Figure.3 Confusion Matrix after Feature Selection**
 </p>
 
 </div>
-
-    cr <- read_csv("../img/reports/classification_report_feature_selection.csv")
-
-    ## Warning: Missing column names filled in: 'X1' [1]
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   X1 = col_double(),
-    ##   index = col_character(),
-    ##   precision = col_double(),
-    ##   recall = col_double(),
-    ##   `f1-score` = col_double(),
-    ##   support = col_double()
-    ## )
-
-    cr <- cr %>% select(-X1)
-    colnames(cr)[1]="Class"
-    knitr::kable(cr)
 
 | Class        | precision |    recall |  f1-score |      support |
 |:-------------|----------:|----------:|----------:|-------------:|
@@ -274,6 +226,9 @@ Figure.3 Confusion Matrix after Feature Selection
 | accuracy     | 0.9023678 | 0.9023678 | 0.9023678 |    0.9023678 |
 | macro avg    | 0.8422352 | 0.7619274 | 0.7936093 | 3083.0000000 |
 | weighted avg | 0.8956216 | 0.9023678 | 0.8959045 | 3083.0000000 |
+
+**Table 4: Classification report of the best model after applying
+feature selection**
 
 In the context of the model’s applicability, false negatives can be
 argued to be more detrimental than false positives as they represent
