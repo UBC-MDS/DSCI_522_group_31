@@ -4,7 +4,7 @@ bibliography: ../docs/online_purchasing_intention_refs.bib
 author: "Yazan Saleh"
 contributors: "Mai Le"
 date: "27/11/2020"
-output: 
+output:
   github_document:
     toc: true
 ---
@@ -33,39 +33,40 @@ The data set used in this project is the "Online Shoppers Purchasing Intention" 
 
 High level information about the dataset variables can be found below:
 
-| Index | Variable                 | Description                                                                                                                                                    |
-|-------|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1     | Administrative           | Number of administrative pages visited                                                                                                                         |
-| 2     | Administrative\_Duration | Duration of time spent on administrative pages                                                                                                                 |
-| 3     | Informational            | Number of informational pages visited                                                                                                                          |
-| 4     | Informational\_Duration  | Duration of time spent on informational pages                                                                                                                  |
-| 5     | ProductRelated           | Number of product related pages visited                                                                                                                        |
-| 6     | ProductRelated\_Duration | Duration of time spent on informational pages                                                                                                                  |
-| 7     | BounceRate               | The percentage of visitors who enter the site from that page and then leave without triggering any other requests to the analytics server during that session. |
-| 8     | ExitRate                 | The percentage that were the last in the session over all pageviews to the page                                                                                |
-| 9     | PageValues               | The average value for a web page that a user visited before completing a transaction.                                                                          |
-| 10    | SpecialDay               | How close the site visiting time is to a special day/holiday                                                                                                   |
-| 11    | Month                    | Month of visiting time                                                                                                                                         |
-| 12    | OperatingSystem          | OS used by the visitor                                                                                                                                         |
-| 13    | Browser                  | Internet browser used by the visitor                                                                                                                           |
-| 14    | Region                   | Demographic region when the user accessing the site                                                                                                            |
-| 15    | TrafficType              | From which source the visitor arrived at the site                                                                                                              |
-| 16    | VisitorType              | Visitor type as "New Visitor", "Returning Visitor", and "Other"                                                                                                |
-| 17    | Weekend                  | If the visiting day is during weekend                                                                                                                          |
-| 18    | Revenue                  | Prediction target                                                                                                                                              |
+| Index | Variable                | Description                                                                                                                                                    |
+| ----- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | Administrative          | Number of administrative pages visited                                                                                                                         |
+| 2     | Administrative_Duration | Duration of time spent on administrative pages                                                                                                                 |
+| 3     | Informational           | Number of informational pages visited                                                                                                                          |
+| 4     | Informational_Duration  | Duration of time spent on informational pages                                                                                                                  |
+| 5     | ProductRelated          | Number of product related pages visited                                                                                                                        |
+| 6     | ProductRelated_Duration | Duration of time spent on informational pages                                                                                                                  |
+| 7     | BounceRate              | The percentage of visitors who enter the site from that page and then leave without triggering any other requests to the analytics server during that session. |
+| 8     | ExitRate                | The percentage that were the last in the session over all pageviews to the page                                                                                |
+| 9     | PageValues              | The average value for a web page that a user visited before completing a transaction.                                                                          |
+| 10    | SpecialDay              | How close the site visiting time is to a special day/holiday                                                                                                   |
+| 11    | Month                   | Month of visiting time                                                                                                                                         |
+| 12    | OperatingSystem         | OS used by the visitor                                                                                                                                         |
+| 13    | Browser                 | Internet browser used by the visitor                                                                                                                           |
+| 14    | Region                  | Demographic region when the user accessing the site                                                                                                            |
+| 15    | TrafficType             | From which source the visitor arrived at the site                                                                                                              |
+| 16    | VisitorType             | Visitor type as "New Visitor", "Returning Visitor", and "Other"                                                                                                |
+| 17    | Weekend                 | If the visiting day is during weekend                                                                                                                          |
+| 18    | Revenue                 | Prediction target                                                                                                                                              |
+
 **Table 1: Data set description**
 
 Values of feature 1-6 are derived from the visited pages' URL and reflected in real time when a user takes any actions on the site. Values of feature 7-9: come from metrics measured by "Google Analytics" for each page on the site.
 
-Among those features, there are some features that might be important to predict the target: 'ProductRelated\_Duration', 'BounceRates', 'ExitRates', 'PageValues', 'Month', 'TrafficType' and 'VisitorType'.
+Among those features, there are some features that might be important to predict the target: 'ProductRelated_Duration', 'BounceRates', 'ExitRates', 'PageValues', 'Month', 'TrafficType' and 'VisitorType'.
 
 ### Analysis
+
 The dataset has class imbalance whereby there are many more observations corresponding to visitors that do not end up contributing to revenue (i.e. target `Revenue` class value is `False`) compared to the number of observations corresponding to visitors that do end up contributing to revenue (i.e. target `revenue` class value is `True`) (Figure 1). Class imbalance will be dealt with by changing the training procedures of our models and assigning `class_weight` to `balanced`.
 
 ```{r echo=FALSE, fig.cap = "<b>Figure.1 Class imbalance</b>", fig.align="center", out.width='20%',out.height='30%'}
 knitr::include_graphics('../img/eda/class_imbalance.png')
 ```
-
 
 Considering this is a binary classification problem, several algorithms can be well-suited to the task. In our study, we compared 3 different models, namely, support-vector machine (SVM), logistic regression, and random forest classifier in their ability to classify visitors as a revenue generator, (i.e. intending to purchase) or not. Initially all features included in the data sets were used to fit and score the models. Hyperparameters of each model were chosen based on `f1` scores following randomized search cross-validation. Specifically, we tuned the regularization and kernel coefficient for SVM; the regularization hyperparameter for logistic regression; and the number of estimators and maximum depth parameters for random forest classifier. The number of folds used in cross-validation was 10 for both hyperparameter optimization and model selection.
 
@@ -89,15 +90,13 @@ comparison_table <- comparison_table %>% select(-X1)
 colnames(comparison_table)[1]="Model"
 knitr::kable(comparison_table, caption = "**Table 2: Model selection result**")
 ```
-  
-  
+
 The model performance on the test set was less robust as `f1` score dropped to 0.67 when considering our class of interest, presence of revenue, as the positive class. Overall accuracy was relatively high at 0.88 (Table 3) although the model mis-classified 363 observations consisting of 246 false positives and 117 false negatives as per the confusion matrix shown below (Figure 3).
 
 ```{r echo=FALSE, fig.cap = "<b>Figure.3 Confusion Matrix before Feature Selection</b>", out.width='80%',out.height='70%'}
 knitr::include_graphics("../img/reports/confusion_matrix.png")
 ```
 
-  
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 cr <- read_csv("../img/reports/classification_report.csv")
 cr <- cr %>% select(-X1)
