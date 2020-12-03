@@ -25,7 +25,7 @@ Therefore, we recommend improving this model prior to deployment in the
 real-world.
 
 The data set used in this project is the “Online Shoppers Purchasing
-Intention” dataset provided by the [GÃ¶zalan
+Intention” dataset provided by the [Gözalan
 Group](http://www.gozalangroup.com.tr/) and used by Sakar, OC et al. in
 their 2018 analysis publsihed in [Neural Computing and
 Applications](https://link.springer.com/article/10.1007/s00521-018-3523-0)(Sakar
