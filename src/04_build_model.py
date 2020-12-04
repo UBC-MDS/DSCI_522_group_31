@@ -48,6 +48,95 @@ SVC_NAME = "SVC"
 PARAM_DIST = "param_dist"
 
 
+# region main function
+def main(data_path, out_report_path, random_state, tune_params):
+    print(data_path, out_report_path, random_state, tune_params)
+    # read the data files, split into X and y
+    print("Start build_model script")
+    print("Read the data files, split into X and y")
+    random_state = int(random_state)
+    tune = True if tune_params == 'True' else False
+
+    if tune:
+        print("We will tune the hyperparameters")
+    else:
+        print("We will use the predefined hyperamater values")
+
+    X_train, y_train, X_test, y_test = utils.read_data_as_xy(data_path)
+
+    preprocessor = make_column_transformer(
+        ("drop", utils.drop_features),
+        (StandardScaler(), utils.numerical_features),
+        (OneHotEncoder(handle_unknown="ignore"), utils.categorical_features),
+        (OneHotEncoder(handle_unknown="error", drop="if_binary"),
+            utils.binary_features),
+    )
+
+    # tuning hyperparameters for SVC, RandomForestClassifier and
+    # LogisticRegression
+    print("Process models")
+    hyperparams_best_model = tune_hyperparams(
+        preprocessor, X_train, y_train, random_state, tune
+    )
+
+    # find the best model
+    print("Finding the best model using cross validation")
+    _, best_model, _ = find_best_model(
+        hyperparams_best_model,
+        X_train,
+        y_train,
+        random_state,
+        data_path + "/model_selection_result.csv",
+    )
+
+    # get result plots
+    print("Creating plots and classification report")
+    plot, class_report = utils.plot_results(
+        best_model, X_test, y_test, ["No-revenue", "Revenue"]
+    )
+
+    # save plots to report path
+    print("Saving reports")
+    utils.save_plots(
+        out_report_path,
+        plot,
+        class_report,
+        ("confusion_matrix", "classification_report"),
+    )
+
+    # save model to disk
+    print("Saving the best model for later use")
+    pickle.dump(best_model, open(data_path + "/best_model.sav", "wb"))
+
+    # try feature selection
+    print("Building the model with RFE")
+
+    fs_model = make_pipeline(
+        preprocessor,
+        RFECV(Ridge(random_state=random_state), cv=10),
+        RandomForestClassifier(max_depth=12, n_estimators=275),
+    )
+    fs_model.fit(X_train, y_train)
+
+    plot, class_report = utils.plot_results(
+        fs_model, X_test, y_test, ["No-revenue", "Revenue"]
+    )
+
+    # save plots to report path
+    print("Saving reports")
+    utils.save_plots(
+        out_report_path,
+        plot,
+        class_report,
+        (
+            "confusion_matrix_feature_selection",
+            "classification_report_feature_selection",
+        ),
+    )
+    print("End build_model script")
+    return
+
+
 def create_logistic_regression_model(random_state, tune=True):
     """Create a logistic regression model using best hyperparameters or tuning
 
@@ -168,7 +257,8 @@ def tune_hyperparams(preprocessor, X, y, random_state, tune=True):
             2020)
     """
     classifiers = {
-        LOGISTIC_REG_NAME: create_logistic_regression_model(random_state, tune),
+        LOGISTIC_REG_NAME:
+            create_logistic_regression_model(random_state, tune),
         RANDOM_FOREST_NAME: create_random_forest_model(random_state, tune),
         SVC_NAME: create_SVC_model(random_state, tune)
     }
@@ -289,95 +379,6 @@ def retrieve_important_features(
     return new_columns[rfecv.named_steps["rfecv"].support_]
 
 
-# region main function
-def main(data_path, out_report_path, random_state, tune_params):
-    print(data_path, out_report_path, random_state, tune_params)
-    # read the data files, split into X and y
-    print("Start build_model script")
-    print("Read the data files, split into X and y")
-    random_state = int(random_state)
-    tune = True if tune_params == 'True' else False
-
-    if tune:
-        print("We will tune the hyperparameters")
-    else:
-        print("We will use the predefined hyperamater values")
-
-    X_train, y_train, X_test, y_test = utils.read_data_as_xy(data_path)
-
-    preprocessor = make_column_transformer(
-        ("drop", utils.drop_features),
-        (StandardScaler(), utils.numerical_features),
-        (OneHotEncoder(handle_unknown="ignore"), utils.categorical_features),
-        (OneHotEncoder(handle_unknown="error", drop="if_binary"),
-            utils.binary_features),
-    )
-
-    # tuning hyperparameters for SVC, RandomForestClassifier and
-    # LogisticRegression
-    print("Process models")
-    hyperparams_best_model = tune_hyperparams(
-        preprocessor, X_train, y_train, random_state, tune
-    )
-
-    # find the best model
-    print("Finding the best model using cross validation")
-    _, best_model, _ = find_best_model(
-        hyperparams_best_model,
-        X_train,
-        y_train,
-        random_state,
-        data_path + "/model_selection_result.csv",
-    )
-
-    # get result plots
-    print("Creating plots and classification report")
-    plot, class_report = utils.plot_results(
-        best_model, X_test, y_test, ["No-revenue", "Revenue"]
-    )
-
-    # save plots to report path
-    print("Saving reports")
-    utils.save_plots(
-        out_report_path,
-        plot,
-        class_report,
-        ("confusion_matrix", "classification_report"),
-    )
-
-    # save model to disk
-    print("Saving the best model for later use")
-    pickle.dump(best_model, open(data_path + "/best_model.sav", "wb"))
-
-    # try feature selection
-    print("Building the model with RFE")
-
-    fs_model = make_pipeline(
-        preprocessor,
-        RFECV(Ridge(random_state=random_state), cv=10),
-        RandomForestClassifier(max_depth=12, n_estimators=275),
-    )
-    fs_model.fit(X_train, y_train)
-
-    plot, class_report = utils.plot_results(
-        fs_model, X_test, y_test, ["No-revenue", "Revenue"]
-    )
-
-    # save plots to report path
-    print("Saving reports")
-    utils.save_plots(
-        out_report_path,
-        plot,
-        class_report,
-        (
-            "confusion_matrix_feature_selection",
-            "classification_report_feature_selection",
-        ),
-    )
-    print("End build_model script")
-    return
-
-
 if __name__ == "__main__":
     opt = docopt(__doc__)
     main(
@@ -386,5 +387,3 @@ if __name__ == "__main__":
         opt["--random_state"],
         opt["--tune_params"],
     )
-
-# endregion
