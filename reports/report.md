@@ -197,7 +197,7 @@ confusion matrix shown below (Figure 3).
 
 <div class="figure">
 
-<img src="../img/reports/confusion_matrix.png" alt="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection&lt;/b&gt;" width="80%" height="70%" />
+<img src="../img/reports/confusion_matrix.png" alt="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection&lt;/b&gt;" width="50%" height="40%" />
 <p class="caption">
 <b>Figure.3 Confusion Matrix before Feature Selection</b>
 </p>
@@ -225,7 +225,7 @@ shown below (Table 4 & Figure 4).
 
 <div class="figure">
 
-<img src="../img/reports/confusion_matrix_feature_selection.png" alt="&lt;b&gt;Figure.4 Confusion Matrix after Feature Selection&lt;/b&gt;" width="80%" height="70%" />
+<img src="../img/reports/confusion_matrix_feature_selection.png" alt="&lt;b&gt;Figure.4 Confusion Matrix after Feature Selection&lt;/b&gt;" width="50%" height="40%" />
 <p class="caption">
 <b>Figure.4 Confusion Matrix after Feature Selection</b>
 </p>

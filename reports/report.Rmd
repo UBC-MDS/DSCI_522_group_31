@@ -93,7 +93,7 @@ knitr::kable(comparison_table, caption = "**Table 2: Model selection result**")
 
 The model performance on the test set was less robust as `f1` score dropped to 0.67 when considering our class of interest, presence of revenue, as the positive class. Overall accuracy was relatively high at 0.88 (Table 3) although the model mis-classified 363 observations consisting of 246 false positives and 117 false negatives as per the confusion matrix shown below (Figure 3).
 
-```{r echo=FALSE, fig.cap = "<b>Figure.3 Confusion Matrix before Feature Selection</b>", out.width='80%',out.height='70%'}
+```{r echo=FALSE, fig.cap = "<b>Figure.3 Confusion Matrix before Feature Selection</b>", out.width='50%',out.height='40%'}
 knitr::include_graphics("../img/reports/confusion_matrix.png")
 ```
 
@@ -106,7 +106,7 @@ knitr::kable(cr, caption = "**Table 3: Classification report of the best model b
 
 We used recursive feature elimination (RFE) to attempt to achieve better classification performance and identify the most important features. RFE retained 37/74 features after transformation which came from 10 features out of the original 17 as being most important to the classification problem. Nevertheless, fitting the model on the new dataset that includes these features only did not significantly affect performance as shown below (Table 4 & Figure 4).
 
-```{r echo=FALSE, fig.cap = "<b>Figure.4 Confusion Matrix after Feature Selection</b>", out.width='80%',out.height='70%'}
+```{r echo=FALSE, fig.cap = "<b>Figure.4 Confusion Matrix after Feature Selection</b>", out.width='50%',out.height='40%'}
 knitr::include_graphics("../img/reports/confusion_matrix_feature_selection.png")
 ```
 
