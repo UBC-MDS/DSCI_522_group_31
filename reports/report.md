@@ -11,8 +11,7 @@ Yazan Saleh
 -   [Results & Discussion](#results-discussion)
 -   [References](#references)
 
-Summary
--------
+## Summary
 
 In this project, we compare 3 different algorithms with the aim of
 building a classification model to predict purchasing intentions of
@@ -28,8 +27,7 @@ potential sources of missed revenue for e-commerce businesses.
 Therefore, we recommend improving this model prior to deployment in the
 real-world.
 
-Introduction
-------------
+## Introduction
 
 With the rising popularity of online shopping, particularly in the wake
 of the 2020 coronavirus pandemic, there exists a strong growth
@@ -55,8 +53,7 @@ with a given portfolio of visitors may use the machine learning
 algorithm to predict its revenue conversion rates which can be a
 valuable metric in financial modeling.
 
-Methodology
------------
+## Methodology
 
 ### Data
 
@@ -99,7 +96,7 @@ High level information about the dataset variables can be found below:
 | 13    | Browser                  | Internet browser used by the visitor                                                                                                                           |
 | 14    | Region                   | Demographic region when the user accessing the site                                                                                                            |
 | 15    | TrafficType              | From which source the visitor arrived at the site                                                                                                              |
-| 16    | VisitorType              | Visitor type as “New Visitor”, “Returning Visitor”, and “Other”                                                                                                |
+| 16    | VisitorType              | Visitor type as “New Visitor,” “Returning Visitor,” and “Other”                                                                                                |
 | 17    | Weekend                  | If the visiting day is during weekend                                                                                                                          |
 | 18    | Revenue                  | Prediction target                                                                                                                                              |
 
@@ -111,8 +108,8 @@ of feature 7-9: come from metrics measured by “Google Analytics” for
 each page on the site.
 
 Among those features, there are some features that might be important to
-predict the target: ‘ProductRelated\_Duration’, ‘BounceRates’,
-‘ExitRates’, ‘PageValues’, ‘Month’, ‘TrafficType’ and ‘VisitorType’.
+predict the target: ‘ProductRelated\_Duration,’ ‘BounceRates,’
+‘ExitRates,’ ‘PageValues,’ ‘Month,’ ‘TrafficType’ and ‘VisitorType.’
 
 ### Analysis
 
@@ -126,7 +123,7 @@ models and assigning `class_weight` to `balanced`.
 
 <div class="figure" style="text-align: center">
 
-<img src="../img/eda/class_imbalance.png" alt="&lt;b&gt;Figure.1 Class imbalance&lt;/b&gt;" width="20%" height="30%" />
+<img src="../img/eda/class_imbalance.png" alt="&lt;b&gt;Figure.1 Class imbalance&lt;/b&gt;" width="40%" height="10%" />
 <p class="caption">
 <b>Figure.1 Class imbalance</b>
 </p>
@@ -159,8 +156,7 @@ Scikit-learn (Pedregosa et al. 2011). The code used to conduct this
 analysis can be found
 [here](https://github.com/UBC-MDS/DSCI_522_group_31).
 
-Results & Discussion
---------------------
+## Results & Discussion
 
 Prior to fitting the model, we looked at how the distribution of each of
 the features in the training set varies between the two classes (revenue
@@ -172,7 +168,7 @@ and subsequently try to use RFE to better guide us at feature selection.
 
 <div class="figure" style="text-align: center">
 
-<img src="../img/eda/feature_density.png" alt="&lt;b&gt;Figure.2 Density plots of numerical features by target class&lt;/b&gt;" width="50%" height="70%" />
+<img src="../img/eda/feature_density.png" alt="&lt;b&gt;Figure.2 Density plots of numerical features by target class&lt;/b&gt;" width="70%" height="70%" />
 <p class="caption">
 <b>Figure.2 Density plots of numerical features by target class</b>
 </p>
@@ -186,9 +182,9 @@ according to `f1` score. (Table 2)
 
 | Model               | fit\_time | score\_time | test\_accuracy | test\_f1 | test\_recall |
 |:--------------------|----------:|------------:|---------------:|---------:|-------------:|
-| Logistic Regression |    0.2141 |      0.0222 |         0.8548 |   0.6149 |       0.7554 |
-| Random Forest       |    8.3427 |      0.1351 |         0.8841 |   0.6709 |       0.7702 |
-| SVC                 |    7.7296 |      0.4416 |         0.8714 |   0.6374 |       0.7364 |
+| Logistic Regression |    0.0798 |      0.0108 |         0.8548 |   0.6149 |       0.7554 |
+| Random Forest       |    4.4867 |      0.0645 |         0.8841 |   0.6709 |       0.7702 |
+| SVC                 |    3.2779 |      0.2207 |         0.8714 |   0.6374 |       0.7364 |
 
 **Table 2: Model selection result**
 
@@ -201,7 +197,7 @@ confusion matrix shown below (Figure 3).
 
 <div class="figure">
 
-<img src="../img/reports/confusion_matrix.png" alt="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection&lt;/b&gt;" width="80%" height="70%" />
+<img src="../img/reports/confusion_matrix.png" alt="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection&lt;/b&gt;" width="50%" height="40%" />
 <p class="caption">
 <b>Figure.3 Confusion Matrix before Feature Selection</b>
 </p>
@@ -229,7 +225,7 @@ shown below (Table 4 & Figure 4).
 
 <div class="figure">
 
-<img src="../img/reports/confusion_matrix_feature_selection.png" alt="&lt;b&gt;Figure.4 Confusion Matrix after Feature Selection&lt;/b&gt;" width="80%" height="70%" />
+<img src="../img/reports/confusion_matrix_feature_selection.png" alt="&lt;b&gt;Figure.4 Confusion Matrix after Feature Selection&lt;/b&gt;" width="50%" height="40%" />
 <p class="caption">
 <b>Figure.4 Confusion Matrix after Feature Selection</b>
 </p>
@@ -238,11 +234,11 @@ shown below (Table 4 & Figure 4).
 
 | Class        | precision |    recall |  f1-score |      support |
 |:-------------|----------:|----------:|----------:|-------------:|
-| No-revenue   | 0.9204254 | 0.9676176 | 0.9434317 | 2594.0000000 |
-| Revenue      | 0.7640449 | 0.5562372 | 0.6437870 |  489.0000000 |
-| accuracy     | 0.9023678 | 0.9023678 | 0.9023678 |    0.9023678 |
-| macro avg    | 0.8422352 | 0.7619274 | 0.7936093 | 3083.0000000 |
-| weighted avg | 0.8956216 | 0.9023678 | 0.8959045 | 3083.0000000 |
+| No-revenue   | 0.9187111 | 0.9672321 | 0.9423474 | 2594.0000000 |
+| Revenue      | 0.7585227 | 0.5460123 | 0.6349584 |  489.0000000 |
+| accuracy     | 0.9004217 | 0.9004217 | 0.9004217 |    0.9004217 |
+| macro avg    | 0.8386169 | 0.7566222 | 0.7886529 | 3083.0000000 |
+| weighted avg | 0.8933033 | 0.9004217 | 0.8935919 | 3083.0000000 |
 
 **Table 4: Classification report of the best model after applying
 feature selection**
@@ -270,19 +266,18 @@ indicates that visiting `Product related` and `Administrative` pages is
 important to the classification algorithm although our model and current
 feature selection methodology was not able to identify that.
 
-References
-==========
+# References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-docopt">
+<div id="ref-docopt" class="csl-entry">
 
 de Jonge, Edwin. 2020. *Docopt: Command-Line Interface Specification
 Language*. <https://CRAN.R-project.org/package=docopt>.
 
 </div>
 
-<div id="ref-Dua:2019">
+<div id="ref-Dua:2019" class="csl-entry">
 
 Dua, Dheeru, and Casey Graff. 2017. “UCI Machine Learning Repository.”
 University of California, Irvine, School of Information; Computer
@@ -290,14 +285,14 @@ Sciences. <http://archive.ics.uci.edu/ml>.
 
 </div>
 
-<div id="ref-featherpy">
+<div id="ref-featherpy" class="csl-entry">
 
 McKinney, Wes. 2019. *Feather: Simple Wrapper Library to the Apache
 Arrow-Based Feather File Format*. <https://github.com/wesm/feather>.
 
 </div>
 
-<div id="ref-mckinney2010data">
+<div id="ref-mckinney2010data" class="csl-entry">
 
 McKinney, Wes, and others. 2010. “Data Structures for Statistical
 Computing in Python.” In *Proceedings of the 9th Python in Science
@@ -305,7 +300,7 @@ Conference*, 445:51–56. Austin, TX.
 
 </div>
 
-<div id="ref-pedregosa2011scikit">
+<div id="ref-pedregosa2011scikit" class="csl-entry">
 
 Pedregosa, Fabian, Gaël Varoquaux, Alexandre Gramfort, Vincent Michel,
 Bertrand Thirion, Olivier Grisel, Mathieu Blondel, et al. 2011.
@@ -314,17 +309,24 @@ Research* 12 (Oct): 2825–30.
 
 </div>
 
-<div id="ref-Sakar2019">
+<div id="ref-Sakar2019" class="csl-entry">
 
 Sakar, C. Okan, S. Olcay Polat, Mete Katircioglu, and Yomi Kastro. 2019.
 “Real-Time Prediction of Online Shoppers’ Purchasing Intention Using
-Multilayer Perceptron and Lstm Recurrent Neural Networks.” *Neural
+Multilayer Perceptron and LSTM Recurrent Neural Networks.” *Neural
 Computing and Applications* 31 (10): 6893–6908.
 <https://doi.org/10.1007/s00521-018-3523-0>.
 
 </div>
 
-<div id="ref-vanderplas2018altair">
+<div id="ref-Python" class="csl-entry">
+
+Van Rossum, Guido, and Fred L. Drake. 2009. *Python 3 Reference Manual*.
+Scotts Valley, CA: CreateSpace.
+
+</div>
+
+<div id="ref-vanderplas2018altair" class="csl-entry">
 
 VanderPlas, Jacob, Brian Granger, Jeffrey Heer, Dominik Moritz, Kanit
 Wongsuphasawat, Arvind Satyanarayan, Eitan Lees, Ilia Timofeev, Ben
@@ -334,14 +336,7 @@ Visualizations for Python.” *Journal of Open Source Software* 3 (32):
 
 </div>
 
-<div id="ref-Python">
-
-Van Rossum, Guido, and Fred L. Drake. 2009. *Python 3 Reference Manual*.
-Scotts Valley, CA: CreateSpace.
-
-</div>
-
-<div id="ref-knitr">
+<div id="ref-knitr" class="csl-entry">
 
 Xie, Yihui. 2014. “Knitr: A Comprehensive Tool for Reproducible Research
 in R.” In *Implementing Reproducible Computational Research*, edited by

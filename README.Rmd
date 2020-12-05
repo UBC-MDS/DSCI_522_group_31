@@ -32,7 +32,13 @@ conda activate online_shopping_prediction_env
 Step 3: Run the following commands at the command line/terminal from the root directory of this project:
 
 ```bash
-./run_all.sh
+make all
+```
+
+To reset the project to a clean state and re-run the analysis, run the following command at the command line/terminal from the root directory of the project:
+
+```bash
+make clean
 ```
 
 ## Dependencies

@@ -1,14 +1,12 @@
 
-Online Purchasing Intention Predictor
-=====================================
+# Online Purchasing Intention Predictor
 
--   Co-authors: Yazan Saleh, Mai Le, Tran Doan Khanh Vu, Jingjing Zhi
+  - Co-authors: Yazan Saleh, Mai Le, Tran Doan Khanh Vu, Jingjing Zhi
 
 A data analysis project aiming to predict purchasing intentions of
 online shoppers.
 
-About
------
+## About
 
 In this project, we compare 3 different algorithms with the aim of
 building a classification model to predict purchasing intentions of
@@ -25,7 +23,7 @@ Therefore, we recommend improving this model prior to deployment in the
 real-world.
 
 The data set used in this project is the “Online Shoppers Purchasing
-Intention” dataset provided by the [Gözalan
+Intention” dataset provided by the [GÃ¶zalan
 Group](http://www.gozalangroup.com.tr/) and used by Sakar, OC et al. in
 their 2018 analysis publsihed in [Neural Computing and
 Applications](https://link.springer.com/article/10.1007/s00521-018-3523-0)(Sakar
@@ -44,13 +42,11 @@ browsed to and the duration spent on each page. Session information
 includes visitor-identifying data such as browser information, operating
 system information as well visitor location and type.
 
-Reports
--------
+## Reports
 
 The final report can be found [here](/reports/report.md)
 
-Usage
------
+## Usage
 
 To replicate this analysis, please follow these steps:
 
@@ -61,30 +57,39 @@ the root of this project by running the following command at the root
 directory of the project. (Alternatively, you can manually install the
 dependencies listed in the `env.yaml` file)
 
-    conda env create --file env.yaml
-    conda activate online_shopping_prediction_env
+``` bash
+conda env create --file env.yaml
+conda activate online_shopping_prediction_env
+```
 
 Step 3: Run the following commands at the command line/terminal from the
 root directory of this project:
 
-    ./run_all.sh
+``` bash
+make all
+```
 
-Dependencies
-------------
+To reset the project to a clean state and re-run the analysis, run the
+following command at the command line/terminal from the root directory
+of the project:
+
+``` bash
+make clean
+```
+
+## Dependencies
 
 Please see the project dependencies included in the root env.yaml file
 
-License
--------
+## License
 
 All Online Purchasing Intention Predictor materials are made available
-under the **Creative Commons Attribution 2.5 Canada License** ([CC BY
-2.5 CA](https://creativecommons.org/licenses/by/2.5/ca/)).
+under the **Creative Commons Attribution 2.5 Canada License** ([CC
+BY 2.5 CA](https://creativecommons.org/licenses/by/2.5/ca/)).
 
-References
-==========
+# References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references">
 
 <div id="ref-Dua:2019">
 

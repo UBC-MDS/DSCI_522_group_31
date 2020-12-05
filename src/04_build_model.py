@@ -182,10 +182,7 @@ def tune_hyperparams(preprocessor, X, y, random_state, tune_hyperparams=True):
             },
             "SVC": {
                 "clf": SVC(class_weight="balanced", random_state=random_state),
-                "param_dist": {
-                    "svc__gamma": [0.1],
-                    "svc__C": [1.0],
-                },
+                "param_dist": {"svc__gamma": [0.1], "svc__C": [1.0],},
             },
         }
     hyperparams_best_model = {}
@@ -311,15 +308,13 @@ def plot_results(model, X, y, labels):
         plot_results(best_model, X_test, y_test, ["No-revenue", "Revenue"])
     """
     confusion_matrix = plot_confusion_matrix(
-        model,
-        X,
-        y,
-        display_labels=labels,
-        values_format="d",
-        cmap=plt.cm.Blues,
+        model, X, y, display_labels=labels, values_format="d", cmap=plt.cm.Blues,
     )
-    return confusion_matrix, classification_report(
-        y, model.predict(X), target_names=labels, output_dict=True
+    return (
+        confusion_matrix,
+        classification_report(
+            y, model.predict(X), target_names=labels, output_dict=True
+        ),
     )
 
 
@@ -337,6 +332,9 @@ def save_plots(filepath, plot, class_report, filenames):
         save_plots(plot, class_report, "img/reports")
 
     """
+    if not os.path.exists(filepath):
+        os.makedirs(filepath)
+
     plot.figure_.savefig(filepath + "/" + filenames[0])
     df = pd.DataFrame(class_report).T.reset_index()
     df.to_csv(filepath + "/" + filenames[1] + ".csv")
