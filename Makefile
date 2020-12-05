@@ -13,12 +13,11 @@ data/processed/train_data.csv data/processed/test_data.csv: src/02_cleanup_data.
 	python src/02_cleanup_data.py --in_file=data/raw/online_shoppers_intention.csv --out_training_file=data/processed/train_data.csv --out_test_file=data/processed/test_data.csv
 
 # generate EDA png files
-img/eda: src/03_generate_eda.py data/processed/train_data.csv
+img/eda/class_imbalance.png img/eda/feature_correlation.png img/eda/feature_density.png : src/03_generate_eda.py data/processed/train_data.csv
 	python src/03_generate_eda.py --in_file=data/processed/train_data.csv --out_folder=img/eda/
 
-    
 # tune model
-img/reports: src/04_build_model.py data/processed
+data/processed/best_model.sav img/reports/classification_report.csv img/reports/classification_report_feature_selection.csv img/reports/confusion_matrix.png img/reports/confusion_matrix_feature_selection.png : src/04_build_model.py data/processed/train_data.csv data/processed/test_data.csv
 	python src/04_build_model.py --data_path=data/processed --out_report_path=img/reports --random_state=2020 --tune_params=True
 
 clean: 
