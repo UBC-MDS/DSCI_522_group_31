@@ -20,6 +20,10 @@ img/eda/class_imbalance.png img/eda/feature_correlation.png img/eda/feature_dens
 data/processed/best_model.sav img/reports/classification_report.csv img/reports/classification_report_feature_selection.csv img/reports/confusion_matrix.png img/reports/confusion_matrix_feature_selection.png : src/04_build_model.py data/processed/train_data.csv data/processed/test_data.csv
 	python src/04_build_model.py --data_path=data/processed --out_report_path=img/reports --random_state=2020 --tune_params=True
 
+# write the report
+reports/report.md : reports/report.Rmd img/eda/class_imbalance.png img/eda/feature_correlation.png img/eda/feature_density.png img/reports/classification_report.csv img/reports/classification_report_feature_selection.csv img/reports/confusion_matrix.png img/reports/confusion_matrix_feature_selection.png
+	Rscript -e "rmarkdown::render('reports/report.Rmd')"
+
 clean: 
 	rm -rf data
 	rm -rf img/eda
