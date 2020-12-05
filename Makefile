@@ -1,8 +1,8 @@
 # online purchasing intention data pipe
-# author: Jingjing Zhi
+# author: Jingjing Zhi, Yazan Saleh
 # date: 2020-12-04
 
-all: img/eda img/reports
+all: reports/report.md
 
 # download data
 data/raw/online_shoppers_intention.csv: src/01_download_data.py
