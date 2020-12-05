@@ -28,3 +28,5 @@ clean:
 	rm -rf data
 	rm -rf img/eda
 	rm -rf img/reports
+	rm -rf reports/report.md
+	rm -rf reports/report.html
