@@ -67,12 +67,12 @@ def main(in_file, out_folder):
             chart = (
                 alt.Chart(df, title="Class imbalance")
                 .encode(
-                    x=alt.X("Revenue"),
-                    y="count()",
+                    x="count()",
+                    y=alt.X("Revenue"),
                     color=alt.Color("Revenue", legend=None),
                 )
                 .mark_bar()
-                .properties(width=100, height=300)
+                .properties(width=300, height=50)
                 .configure_axis(titleFontSize=20)
                 .configure_axisX(labelFontSize=20)
                 .configure_axisY(labelFontSize=15)
