@@ -64,7 +64,7 @@ Among those features, there are some features that might be important to predict
 
 The dataset has class imbalance whereby there are many more observations corresponding to visitors that do not end up contributing to revenue (i.e. target `Revenue` class value is `False`) compared to the number of observations corresponding to visitors that do end up contributing to revenue (i.e. target `revenue` class value is `True`) (Figure 1). Class imbalance will be dealt with by changing the training procedures of our models and assigning `class_weight` to `balanced`.
 
-```{r echo=FALSE, fig.cap = "<b>Figure.1 Class imbalance</b>", fig.align="center", out.width='20%',out.height='30%'}
+```{r echo=FALSE, fig.cap = "<b>Figure.1 Class imbalance</b>", fig.align="center", out.width='40%',out.height='10%'}
 knitr::include_graphics('../img/eda/class_imbalance.png')
 ```
 
@@ -78,7 +78,7 @@ The analysis was performed using the Python programming language [@Python] along
 
 Prior to fitting the model, we looked at how the distribution of each of the features in the training set varies between the two classes (revenue generator: orange, not a revenue generator: blue). This visualization shows us overlapping in the distribution of features across the two target classes, although their spreads differ in some cases (Figure 2). As a result, we opted to include all features in the initial analysis and subsequently try to use RFE to better guide us at feature selection.
 
-```{r echo=FALSE, fig.cap = "<b>Figure.2 Density plots of numerical features by target class</b>", fig.align="center", out.width='50%',out.height='70%'}
+```{r echo=FALSE, fig.cap = "<b>Figure.2 Density plots of numerical features by target class</b>", fig.align="center", out.width='70%',out.height='70%'}
 knitr::include_graphics('../img/eda/feature_density.png')
 ```
 
