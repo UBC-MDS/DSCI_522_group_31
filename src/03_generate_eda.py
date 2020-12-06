@@ -26,13 +26,13 @@ def main(in_file, out_folder):
     print("Start EDA script")
 
     # Step 1: Read the data into Pandas data frame
-    in_extension = in_file[in_file.rindex(".")+1:]
+    in_extension = in_file[in_file.rindex(".") + 1 :]
 
     print("Read in the file:", in_file)
     if in_extension == "csv":
         df = pd.read_csv(in_file)
     elif in_extension == "feather":
-        df = feather.read_dataframe(in_file, )
+        df = feather.read_dataframe(in_file,)
     else:
         print("Unknown data type", in_file)
         return
@@ -50,51 +50,77 @@ def main(in_file, out_folder):
 
     for index, EDA in enumerate(EDAs):
         filepath = os.path.join(dirpath, EDA + ".png")
-        numeric_features = ["Administrative", "Administrative_Duration",
-                            "Informational", "Informational_Duration",
-                            "ProductRelated", "ProductRelated_Duration",
-                            "BounceRates", "ExitRates", "PageValues", "SpecialDay"]
-        
+        numeric_features = [
+            "Administrative",
+            "Administrative_Duration",
+            "Informational",
+            "Informational_Duration",
+            "ProductRelated",
+            "ProductRelated_Duration",
+            "BounceRates",
+            "ExitRates",
+            "PageValues",
+            "SpecialDay",
+        ]
+
         if index == 0:
-            chart = (alt.Chart(df, title="Class imbalance")
-                     .encode(x=alt.X("Revenue"), y="count()", color=alt.Color("Revenue", legend=None))
-                     .mark_bar()
-                     .properties(width=100, height=300)
-                     .configure_axis(titleFontSize=20)
-                     .configure_axisX(labelFontSize=20)
-                     .configure_axisY(labelFontSize=15)
-                     .configure_title(fontSize=30))
+            chart = (
+                alt.Chart(df, title="Class imbalance")
+                .encode(
+                    x="count()",
+                    y=alt.X("Revenue"),
+                    color=alt.Color("Revenue", legend=None),
+                )
+                .mark_bar()
+                .properties(width=300, height=50)
+                .configure_axis(titleFontSize=20)
+                .configure_axisX(labelFontSize=20)
+                .configure_axisY(labelFontSize=15)
+                .configure_title(fontSize=30)
+            )
         elif index == 1:
-            chart = (alt.Chart(df, title="Density plot for numeric features")
-                     .transform_fold(
-                         numeric_features,
-                         as_ = ["Features", "value"])
-                     .transform_density(
-                         density="value",
-                         bandwidth=0.3,
-                         groupby=["Features", "Revenue"],
-                         extent= [0, 8])
-                     .mark_area(opacity=0.3)
-                     .encode(
-                         x=alt.X("value:Q", title="Value", axis=None),
-                         y=alt.Y("density:Q", title="", axis=None),
-                         row=alt.Row("Features:N"),
-                         color="Revenue")
-                     .properties(width=250, height=100)
-                     .configure_axisY(labelFontSize=300)
-                     .configure_title(fontSize=15))
+            data = {
+                "left_plot": numeric_features[:5],
+                "right_plot": numeric_features[5:],
+            }
+            charts = {}
+            for key, cols in data.items():
+                charts[key] = (
+                    alt.Chart(df, title="Density plot for numeric features")
+                    .transform_fold(cols, as_=["Features", "value"])
+                    .transform_density(
+                        density="value",
+                        bandwidth=0.3,
+                        groupby=["Features", "Revenue"],
+                        extent=[0, 8],
+                    )
+                    .mark_area(opacity=0.3)
+                    .encode(
+                        x=alt.X("value:Q", title="Value", axis=None),
+                        y=alt.Y("density:Q", title="", axis=None),
+                        row=alt.Row("Features:N"),
+                        color="Revenue",
+                    )
+                    .properties(width=250, height=100)
+                )
+            chart = charts["left_plot"] | charts["right_plot"]
         elif index == 2:
-            corr_df = df[numeric_features].corr("spearman").stack().reset_index(name="corr")
-            chart = (alt.Chart(corr_df, title="Correlations of numeric features")
-                     .mark_circle()
-                     .encode(
-                         x=alt.X("level_0", title=""),
-                         y=alt.Y("level_1", title=""),
-                         size=alt.Color("corr", title="Correlation"),
-                         color="corr")
-                     .properties(width=300, height=300)
-                     .configure_axis(labelFontSize=10)
-                     .configure_title(fontSize=15))
+            corr_df = (
+                df[numeric_features].corr("spearman").stack().reset_index(name="corr")
+            )
+            chart = (
+                alt.Chart(corr_df, title="Correlations of numeric features")
+                .mark_circle()
+                .encode(
+                    x=alt.X("level_0", title=""),
+                    y=alt.Y("level_1", title=""),
+                    size=alt.Color("corr", title="Correlation"),
+                    color="corr",
+                )
+                .properties(width=300, height=300)
+                .configure_axis(labelFontSize=10)
+                .configure_title(fontSize=15)
+            )
 
         save(chart, filepath, method="selenium", webdriver=driver, scale_factor=2)
         print("Successfully saved chart", filepath)

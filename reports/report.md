@@ -124,14 +124,7 @@ revenue (i.e. target `revenue` class value is `True`) (Figure 1). Class
 imbalance will be dealt with by changing the training procedures of our
 models and assigning `class_weight` to `balanced`.
 
-<div class="figure" style="text-align: center">
-
-<img src="../img/eda/class_imbalance.png" alt="&lt;b&gt;Figure.1 Class imbalance&lt;/b&gt;" width="20%" height="30%" />
-<p class="caption">
-<b>Figure.1 Class imbalance</b>
-</p>
-
-</div>
+<img src="../img/eda/class_imbalance.png" title="&lt;b&gt;Figure.1 Class imbalance&lt;/b&gt;" alt="&lt;b&gt;Figure.1 Class imbalance&lt;/b&gt;" width="40%" height="10%" style="display: block; margin: auto;" />
 
 Considering this is a binary classification problem, several algorithms
 can be well-suited to the task. In our study, we compared 3 different
@@ -170,14 +163,7 @@ target classes, although their spreads differ in some cases (Figure 2).
 As a result, we opted to include all features in the initial analysis
 and subsequently try to use RFE to better guide us at feature selection.
 
-<div class="figure" style="text-align: center">
-
-<img src="../img/eda/feature_density.png" alt="&lt;b&gt;Figure.2 Density plots of numerical features by target class&lt;/b&gt;" width="50%" height="70%" />
-<p class="caption">
-<b>Figure.2 Density plots of numerical features by target class</b>
-</p>
-
-</div>
+<img src="../img/eda/feature_density.png" title="&lt;b&gt;Figure.2 Density plots of numerical features by target class&lt;/b&gt;" alt="&lt;b&gt;Figure.2 Density plots of numerical features by target class&lt;/b&gt;" width="70%" height="70%" style="display: block; margin: auto;" />
 
 Following random search hyperparameter optimization and fitting on the
 entire training dataset, random forest classifier with hyperparameters
@@ -186,9 +172,9 @@ according to `f1` score. (Table 2)
 
 | Model               | fit\_time | score\_time | test\_accuracy | test\_f1 | test\_recall |
 |:--------------------|----------:|------------:|---------------:|---------:|-------------:|
-| Logistic Regression |    0.2141 |      0.0222 |         0.8548 |   0.6149 |       0.7554 |
-| Random Forest       |    8.3427 |      0.1351 |         0.8841 |   0.6709 |       0.7702 |
-| SVC                 |    7.7296 |      0.4416 |         0.8714 |   0.6374 |       0.7364 |
+| Logistic Regression |    0.1089 |      0.0141 |         0.8548 |   0.6149 |       0.7554 |
+| Random Forest       |    6.0488 |      0.0862 |         0.8841 |   0.6709 |       0.7702 |
+| SVC                 |    4.1816 |      0.2814 |         0.8714 |   0.6374 |       0.7364 |
 
 **Table 2: Model selection result**
 
@@ -199,14 +185,7 @@ revenue, as the positive class. Overall accuracy was relatively high at
 consisting of 246 false positives and 117 false negatives as per the
 confusion matrix shown below (Figure 3).
 
-<div class="figure">
-
-<img src="../img/reports/confusion_matrix.png" alt="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection&lt;/b&gt;" width="80%" height="70%" />
-<p class="caption">
-<b>Figure.3 Confusion Matrix before Feature Selection</b>
-</p>
-
-</div>
+<img src="../img/reports/confusion_matrix.png" title="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection&lt;/b&gt;" alt="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection&lt;/b&gt;" width="50%" height="40%" />
 
 | Class        | precision |    recall |  f1-score |      support |
 |:-------------|----------:|----------:|----------:|-------------:|
@@ -227,22 +206,15 @@ problem. Nevertheless, fitting the model on the new dataset that
 includes these features only did not significantly affect performance as
 shown below (Table 4 & Figure 4).
 
-<div class="figure">
+<img src="../img/reports/confusion_matrix_feature_selection.png" title="&lt;b&gt;Figure.4 Confusion Matrix after Feature Selection&lt;/b&gt;" alt="&lt;b&gt;Figure.4 Confusion Matrix after Feature Selection&lt;/b&gt;" width="50%" height="40%" />
 
-<img src="../img/reports/confusion_matrix_feature_selection.png" alt="&lt;b&gt;Figure.4 Confusion Matrix after Feature Selection&lt;/b&gt;" width="80%" height="70%" />
-<p class="caption">
-<b>Figure.4 Confusion Matrix after Feature Selection</b>
-</p>
-
-</div>
-
-| Class        | precision |    recall |  f1-score |      support |
-|:-------------|----------:|----------:|----------:|-------------:|
-| No-revenue   | 0.9204254 | 0.9676176 | 0.9434317 | 2594.0000000 |
-| Revenue      | 0.7640449 | 0.5562372 | 0.6437870 |  489.0000000 |
-| accuracy     | 0.9023678 | 0.9023678 | 0.9023678 |    0.9023678 |
-| macro avg    | 0.8422352 | 0.7619274 | 0.7936093 | 3083.0000000 |
-| weighted avg | 0.8956216 | 0.9023678 | 0.8959045 | 3083.0000000 |
+| Class        | precision |    recall |  f1-score |     support |
+|:-------------|----------:|----------:|----------:|------------:|
+| No-revenue   | 0.9187408 | 0.9676176 | 0.9425460 | 2594.000000 |
+| Revenue      | 0.7606838 | 0.5460123 | 0.6357143 |  489.000000 |
+| accuracy     | 0.9007460 | 0.9007460 | 0.9007460 |    0.900746 |
+| macro avg    | 0.8397123 | 0.7568149 | 0.7891301 | 3083.000000 |
+| weighted avg | 0.8936711 | 0.9007460 | 0.8938789 | 3083.000000 |
 
 **Table 4: Classification report of the best model after applying
 feature selection**

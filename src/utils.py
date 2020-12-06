@@ -2,6 +2,7 @@
 # date: 2020-12-04
 """ Utils function
 """
+import os
 
 import pandas as pd
 import numpy as np
@@ -11,71 +12,6 @@ from sklearn.metrics import (
     classification_report,
     plot_confusion_matrix,
 )
-
-# region categorize features into different types
-numerical_features = [
-    "Administrative",
-    "Administrative_Duration",
-    "Informational",
-    "Informational_Duration",
-    "ProductRelated",
-    "ProductRelated_Duration",
-    "BounceRates",
-    "ExitRates",
-    "PageValues",
-    "SpecialDay",
-]
-categorical_features = [
-    "Month",
-    "OperatingSystems",
-    "Browser",
-    "Region",
-    "TrafficType",
-    "VisitorType",
-]
-binary_features = ["Weekend"]
-drop_features = []
-
-
-def read_data_as_df(data_path):
-    """read train and test data files located in the data_path
-
-    Args:
-        data_path (string): path containing files for train and test data
-
-    Returns:
-        (train_df, test_def) (DataFrame, DataFrame): a tuple consisting of
-        train dataset and test dataset in pandas.DataFrame format
-
-    Examples:
-        train_df, test_df = read_data_as_df("data/processed")
-    """
-    train_df = pd.read_csv(data_path + "/train_data.csv")
-    test_df = pd.read_csv(data_path + "/test_data.csv")
-    return train_df, test_df
-
-
-def read_data_as_xy(data_path):
-    """read train and test data files located in the data_path and split into
-     X and y
-
-    Args:
-        data_path (string): path containing files for train and test data
-
-    Returns:
-        (X_train, y_train, X_test, y_test) (DataFrame, DataFrame): a tuple
-        consisting of X and y train dataset and test dataset in
-        pandas.DataFrame format
-
-    Examples:
-        X_train, y_train, X_test, y_test = read_data_as_xy("data/processed")
-    """
-    train_df, test_df = read_data_as_df(data_path)
-
-    X_train, y_train = train_df.drop(columns=["Revenue"]), train_df["Revenue"]
-    X_test, y_test = test_df.drop(columns=["Revenue"]), test_df["Revenue"]
-
-    return X_train, y_train, X_test, y_test
 
 
 def store_cross_val_results(score_map, model_name, scores, results_df):
@@ -169,6 +105,9 @@ def save_plots(filepath, plot, class_report, filenames):
         save_plots(plot, class_report, "img/reports")
 
     """
+    if not os.path.exists(filepath):
+        os.makedirs(filepath)
+
     plot.figure_.savefig(filepath + "/" + filenames[0])
     df = pd.DataFrame(class_report).T.reset_index()
     df.to_csv(filepath + "/" + filenames[1] + ".csv")

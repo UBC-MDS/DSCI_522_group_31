@@ -40,6 +40,7 @@ import pandas as pd
 import numpy as np
 
 import utils
+import shopping_data_reader as sdr
 # endregion
 
 LOGISTIC_REG_NAME = "Logistic Regression"
@@ -50,10 +51,9 @@ PARAM_DIST = "param_dist"
 
 # region main function
 def main(data_path, out_report_path, random_state, tune_params):
-    print(data_path, out_report_path, random_state, tune_params)
     # read the data files, split into X and y
     print("Start build_model script")
-    print("Read the data files, split into X and y")
+
     random_state = int(random_state)
     tune = True if tune_params == 'True' else False
 
@@ -62,14 +62,15 @@ def main(data_path, out_report_path, random_state, tune_params):
     else:
         print("We will use the predefined hyperamater values")
 
-    X_train, y_train, X_test, y_test = utils.read_data_as_xy(data_path)
+    print("Read the data files, split into X and y")
+    X_train, y_train, X_test, y_test = sdr.read_data_as_xy(data_path)
 
     preprocessor = make_column_transformer(
-        ("drop", utils.drop_features),
-        (StandardScaler(), utils.numerical_features),
-        (OneHotEncoder(handle_unknown="ignore"), utils.categorical_features),
+        ("drop", sdr.drop_features),
+        (StandardScaler(), sdr.numerical_features),
+        (OneHotEncoder(handle_unknown="ignore"), sdr.categorical_features),
         (OneHotEncoder(handle_unknown="error", drop="if_binary"),
-            utils.binary_features),
+            sdr.binary_features),
     )
 
     # tuning hyperparameters for SVC, RandomForestClassifier and
