@@ -11,8 +11,32 @@ Yazan Saleh
 -   [Results & Discussion](#results-discussion)
 -   [References](#references)
 
-Summary
--------
+<style type="text/css">
+  .float-container {
+    padding: 20px;
+    overflow: hidden;
+  }
+  
+  .float-child-left {
+      width: 60%;
+      float: left;
+      padding-bottom: 100%;
+      margin-bottom: -100%;
+  }
+  .float-child-right {
+      padding:10px;
+      width: 40%;
+      float: right;
+      padding-bottom: 100%;
+      margin-bottom: -100%;
+  }
+  table{
+    font-size:90%;
+    align:center;
+  }
+</style>
+
+## Summary
 
 In this project, we compare 3 different algorithms with the aim of
 building a classification model to predict purchasing intentions of
@@ -28,8 +52,7 @@ potential sources of missed revenue for e-commerce businesses.
 Therefore, we recommend improving this model prior to deployment in the
 real-world.
 
-Introduction
-------------
+## Introduction
 
 With the rising popularity of online shopping, particularly in the wake
 of the 2020 coronavirus pandemic, there exists a strong growth
@@ -55,8 +78,7 @@ with a given portfolio of visitors may use the machine learning
 algorithm to predict its revenue conversion rates which can be a
 valuable metric in financial modeling.
 
-Methodology
------------
+## Methodology
 
 ### Data
 
@@ -124,7 +146,14 @@ revenue (i.e. target `revenue` class value is `True`) (Figure 1). Class
 imbalance will be dealt with by changing the training procedures of our
 models and assigning `class_weight` to `balanced`.
 
-<img src="../img/eda/class_imbalance.png" title="&lt;b&gt;Figure.1 Class imbalance&lt;/b&gt;" alt="&lt;b&gt;Figure.1 Class imbalance&lt;/b&gt;" width="40%" height="10%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+
+<img src="../img/eda/class_imbalance.png" alt="&lt;b&gt;Figure.1 Class imbalance.&lt;/b&gt;" width="30%" />
+<p class="caption">
+<b>Figure.1 Class imbalance.</b>
+</p>
+
+</div>
 
 Considering this is a binary classification problem, several algorithms
 can be well-suited to the task. In our study, we compared 3 different
@@ -152,8 +181,7 @@ Scikit-learn (Pedregosa et al. 2011). The code used to conduct this
 analysis can be found
 [here](https://github.com/UBC-MDS/DSCI_522_group_31).
 
-Results & Discussion
---------------------
+## Results & Discussion
 
 Prior to fitting the model, we looked at how the distribution of each of
 the features in the training set varies between the two classes (revenue
@@ -163,7 +191,15 @@ target classes, although their spreads differ in some cases (Figure 2).
 As a result, we opted to include all features in the initial analysis
 and subsequently try to use RFE to better guide us at feature selection.
 
-<img src="../img/eda/feature_density.png" title="&lt;b&gt;Figure.2 Density plots of numerical features by target class&lt;/b&gt;" alt="&lt;b&gt;Figure.2 Density plots of numerical features by target class&lt;/b&gt;" width="70%" height="70%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+
+<img src="../img/eda/feature_density.png" alt="&lt;b&gt;Figure.2 Density plots of numerical features by target class. &lt;br/&gt;Overlapping distribution among features for the two classes.&lt;/b&gt;" width="70%" />
+<p class="caption">
+<b>Figure.2 Density plots of numerical features by target class.
+<br/>Overlapping distribution among features for the two classes.</b>
+</p>
+
+</div>
 
 Following random search hyperparameter optimization and fitting on the
 entire training dataset, random forest classifier with hyperparameters
@@ -176,7 +212,8 @@ according to `f1` score. (Table 2)
 | Random Forest       |    6.0488 |      0.0862 |         0.8841 |   0.6709 |       0.7702 |
 | SVC                 |    4.1816 |      0.2814 |         0.8714 |   0.6374 |       0.7364 |
 
-**Table 2: Model selection result**
+**Table 2: Model selection result. Random Forest Classifier has the best
+results across scores.**
 
 The model performance on the test set was less robust as `f1` score
 dropped to 0.67 when considering our class of interest, presence of
@@ -185,7 +222,23 @@ revenue, as the positive class. Overall accuracy was relatively high at
 consisting of 246 false positives and 117 false negatives as per the
 confusion matrix shown below (Figure 3).
 
-<img src="../img/reports/confusion_matrix.png" title="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection&lt;/b&gt;" alt="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection&lt;/b&gt;" width="50%" height="40%" />
+<div class="float-container">
+
+<div class="float-child-right">
+
+<div class="figure">
+
+<img src="../img/reports/confusion_matrix.png" alt="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection. High number of false positive results.&lt;/b&gt;" width="100%" height="40%" />
+<p class="caption">
+<b>Figure.3 Confusion Matrix before Feature Selection. High number of
+false positive results.</b>
+</p>
+
+</div>
+
+</div>
+
+<div class="float-child-left">
 
 | Class        | precision |    recall |  f1-score |      support |
 |:-------------|----------:|----------:|----------:|-------------:|
@@ -196,7 +249,12 @@ confusion matrix shown below (Figure 3).
 | weighted avg | 0.8969272 | 0.8822575 | 0.8876167 | 3083.0000000 |
 
 **Table 3: Classification report of the best model before applying
-feature selection**
+feature selection. High accuracy but low f1 and recall score for the
+positive class.**
+
+</div>
+
+</div>
 
 We used recursive feature elimination (RFE) to attempt to achieve better
 classification performance and identify the most important features. RFE
@@ -206,7 +264,23 @@ problem. Nevertheless, fitting the model on the new dataset that
 includes these features only did not significantly affect performance as
 shown below (Table 4 & Figure 4).
 
-<img src="../img/reports/confusion_matrix_feature_selection.png" title="&lt;b&gt;Figure.4 Confusion Matrix after Feature Selection&lt;/b&gt;" alt="&lt;b&gt;Figure.4 Confusion Matrix after Feature Selection&lt;/b&gt;" width="50%" height="40%" />
+<div class="float-container">
+
+<div class="float-child-right">
+
+<div class="figure">
+
+<img src="../img/reports/confusion_matrix_feature_selection.png" alt="&lt;b&gt;Figure.4 Confusion Matrix after feature selection. Higher number of false negatives.&lt;/b&gt;" width="100%" height="40%" />
+<p class="caption">
+<b>Figure.4 Confusion Matrix after feature selection. Higher number of
+false negatives.</b>
+</p>
+
+</div>
+
+</div>
+
+<div class="float-child-left">
 
 | Class        | precision |    recall |  f1-score |     support |
 |:-------------|----------:|----------:|----------:|------------:|
@@ -217,7 +291,11 @@ shown below (Table 4 & Figure 4).
 | weighted avg | 0.8936711 | 0.9007460 | 0.8938789 | 3083.000000 |
 
 **Table 4: Classification report of the best model after applying
-feature selection**
+feature selection. High accuracy but lower recall and f1 scores**
+
+</div>
+
+</div>
 
 In the context of the model’s applicability, false negatives can be
 argued to be more detrimental than false positives as they represent
@@ -242,8 +320,7 @@ indicates that visiting `Product related` and `Administrative` pages is
 important to the classification algorithm although our model and current
 feature selection methodology was not able to identify that.
 
-References
-==========
+# References
 
 <div id="refs" class="references hanging-indent">
 

@@ -13,6 +13,31 @@ output:
 library(tidyverse, quietly = TRUE)
 ```
 
+```{css, echo=FALSE}
+  .float-container {
+    padding: 20px;
+    overflow: hidden;
+  }
+  
+  .float-child-left {
+      width: 60%;
+      float: left;
+      padding-bottom: 100%;
+      margin-bottom: -100%;
+  }
+  .float-child-right {
+      padding:10px;
+      width: 40%;
+      float: right;
+      padding-bottom: 100%;
+      margin-bottom: -100%;
+  }
+  table{
+    font-size:90%;
+    align:center;
+  }
+```
+
 ## Summary
 
 In this project, we compare 3 different algorithms with the aim of building a classification model to predict purchasing intentions of online shoppers given browser session data and pageview data. Given our dataset, random forest classifier was identified as the best model compared to support vector machine and logistic regression classifiers. Although the model performed relatively well in terms of accuracy with a score of 0.88, its performance was less robust when scored using `f1` metric. Specifically, the model had an `f1` score of 0.66 and mis-classified 376 observations, 131 of which were false negatives. The 131 incorrect classifications are significant as they represent potential sources of missed revenue for e-commerce businesses. Therefore, we recommend improving this model prior to deployment in the real-world.
@@ -61,10 +86,9 @@ Values of feature 1-6 are derived from the visited pages' URL and reflected in r
 Among those features, there are some features that might be important to predict the target: 'ProductRelated_Duration', 'BounceRates', 'ExitRates', 'PageValues', 'Month', 'TrafficType' and 'VisitorType'.
 
 ### Analysis
-
 The dataset has class imbalance whereby there are many more observations corresponding to visitors that do not end up contributing to revenue (i.e. target `Revenue` class value is `False`) compared to the number of observations corresponding to visitors that do end up contributing to revenue (i.e. target `revenue` class value is `True`) (Figure 1). Class imbalance will be dealt with by changing the training procedures of our models and assigning `class_weight` to `balanced`.
 
-```{r echo=FALSE, fig.cap = "<b>Figure.1 Class imbalance</b>", fig.align="center", out.width='40%',out.height='10%'}
+```{r echo=FALSE, fig.cap = "<b>Figure.1 Class imbalance.</b>", fig.align="center", out.width='30%'}
 knitr::include_graphics('../img/eda/class_imbalance.png')
 ```
 
@@ -78,7 +102,7 @@ The analysis was performed using the Python programming language [@Python] along
 
 Prior to fitting the model, we looked at how the distribution of each of the features in the training set varies between the two classes (revenue generator: orange, not a revenue generator: blue). This visualization shows us overlapping in the distribution of features across the two target classes, although their spreads differ in some cases (Figure 2). As a result, we opted to include all features in the initial analysis and subsequently try to use RFE to better guide us at feature selection.
 
-```{r echo=FALSE, fig.cap = "<b>Figure.2 Density plots of numerical features by target class</b>", fig.align="center", out.width='70%',out.height='70%'}
+```{r echo=FALSE, fig.cap = "<b>Figure.2 Density plots of numerical features by target class. <br/>Overlapping distribution among features for the two classes.</b>", fig.align="center", out.width='70%'}
 knitr::include_graphics('../img/eda/feature_density.png')
 ```
 
@@ -88,34 +112,48 @@ Following random search hyperparameter optimization and fitting on the entire tr
 comparison_table = read_csv("../data/processed/model_selection_result.csv")
 comparison_table <- comparison_table %>% select(-X1)
 colnames(comparison_table)[1]="Model"
-knitr::kable(comparison_table, caption = "**Table 2: Model selection result**")
+knitr::kable(comparison_table, caption = "**Table 2: Model selection result. Random Forest Classifier has the best results across scores.**")
 ```
 
 The model performance on the test set was less robust as `f1` score dropped to 0.67 when considering our class of interest, presence of revenue, as the positive class. Overall accuracy was relatively high at 0.88 (Table 3) although the model mis-classified 363 observations consisting of 246 false positives and 117 false negatives as per the confusion matrix shown below (Figure 3).
 
-```{r echo=FALSE, fig.cap = "<b>Figure.3 Confusion Matrix before Feature Selection</b>", out.width='50%',out.height='40%'}
+<div class="float-container">
+
+  <div class="float-child-right">
+
+```{r echo=FALSE, fig.cap = "<b>Figure.3 Confusion Matrix before Feature Selection. High number of false positive results.</b>", out.width='100%',out.height='40%'}
 knitr::include_graphics("../img/reports/confusion_matrix.png")
 ```
-
+</div>
+  
+  <div class="float-child-left">
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 cr <- read_csv("../img/reports/classification_report.csv")
 cr <- cr %>% select(-X1)
 colnames(cr)[1]="Class"
-knitr::kable(cr, caption = "**Table 3: Classification report of the best model before applying feature selection**")
+knitr::kable(cr, caption = "**Table 3: Classification report of the best model before applying feature selection. High accuracy but low f1 and recall score for the positive class.**")
 ```
+</div>
+</div>
 
 We used recursive feature elimination (RFE) to attempt to achieve better classification performance and identify the most important features. RFE retained 37/74 features after transformation which came from 10 features out of the original 17 as being most important to the classification problem. Nevertheless, fitting the model on the new dataset that includes these features only did not significantly affect performance as shown below (Table 4 & Figure 4).
+<div class="float-container">
 
-```{r echo=FALSE, fig.cap = "<b>Figure.4 Confusion Matrix after Feature Selection</b>", out.width='50%',out.height='40%'}
+  <div class="float-child-right">
+```{r echo=FALSE, fig.cap = "<b>Figure.4 Confusion Matrix after feature selection. Higher number of false negatives.</b>", out.width='100%',out.height='40%'}
 knitr::include_graphics("../img/reports/confusion_matrix_feature_selection.png")
 ```
-
+</div>
+  
+  <div class="float-child-left">
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 cr <- read_csv("../img/reports/classification_report_feature_selection.csv")
 cr <- cr %>% select(-X1)
 colnames(cr)[1]="Class"
-knitr::kable(cr, caption = "**Table 4: Classification report of the best model after applying feature selection**")
+knitr::kable(cr, caption = "**Table 4: Classification report of the best model after applying feature selection. High accuracy but lower recall and f1 scores**")
 ```
+</div>
+</div>
 
 In the context of the model's applicability, false negatives can be argued to be more detrimental than false positives as they represent untapped potential revenue sources. Therefore, we should prefer a model with higher recall (sensitivty) over one with higher precision, which was the case here. Nevertheless, and given the non-small number of false negatives, our model might need further refinement before implementation in the real-world.
 
