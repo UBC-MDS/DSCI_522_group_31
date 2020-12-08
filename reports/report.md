@@ -249,7 +249,7 @@ false positive results.</b>
 | weighted avg | 0.8969272 | 0.8822575 | 0.8876167 | 3083.0000000 |
 
 **Table 3: Classification report of the best model before applying
-feature selection. High accuracy but low f1 and recalling score for the
+feature selection. High accuracy but low f1 and recall score for the
 positive class.**
 
 </div>
