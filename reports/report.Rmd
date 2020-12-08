@@ -131,7 +131,7 @@ knitr::include_graphics("../img/reports/confusion_matrix.png")
 cr <- read_csv("../img/reports/classification_report.csv")
 cr <- cr %>% select(-X1)
 colnames(cr)[1]="Class"
-knitr::kable(cr, caption = "**Table 3: Classification report of the best model before applying feature selection. High accuracy but low f1 and recalling score for the positive class.**")
+knitr::kable(cr, caption = "**Table 3: Classification report of the best model before applying feature selection. High accuracy but low f1 and recall score for the positive class.**")
 ```
 </div>
 </div>
