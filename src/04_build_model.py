@@ -28,6 +28,9 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.svm import SVC
 
+from imblearn.over_sampling import SMOTE
+from imblearn.pipeline import make_pipeline as make_imb_pipeline
+
 import scipy
 from scipy.stats import loguniform
 
@@ -43,9 +46,6 @@ import utils
 import shopping_data_reader as sdr
 # endregion
 
-LOGISTIC_REG_NAME = "Logistic Regression"
-RANDOM_FOREST_NAME = "Random Forest"
-SVC_NAME = "SVC"
 PARAM_DIST = "param_dist"
 
 
@@ -138,7 +138,9 @@ def main(data_path, out_report_path, random_state, tune_params):
     return
 
 
-def create_logistic_regression_model(random_state, tune=True):
+def create_logistic_regression_model(
+    random_state, tune=True, class_balanced=True
+):
     """Create a logistic regression model using best hyperparameters or tuning
 
     Parameters
@@ -151,9 +153,15 @@ def create_logistic_regression_model(random_state, tune=True):
     Logistic Regression Model
         The model we want to create
     """
+
+    class_weight = "balanced"
+
+    if not class_balanced:
+        class_weight = None
+
     model = {
         "clf": LogisticRegression(
-            class_weight="balanced",
+            class_weight=class_weight,
             random_state=random_state,
             max_iter=1000
         )
@@ -164,13 +172,20 @@ def create_logistic_regression_model(random_state, tune=True):
             "logisticregression__C": loguniform(1e-3, 1e3)
         }
     else:
-        model[PARAM_DIST] = {
-            "logisticregression__C": [0.008713608033492446]
+        if class_balanced:
+            model[PARAM_DIST] = {
+                "logisticregression__C": [0.008713608033492446]
+            }
+        else:
+            model[PARAM_DIST] = {
+                "logisticregression__C": [0.008713608033492446]
         }
     return model
 
 
-def create_random_forest_model(random_state, tune=True):
+def create_random_forest_model(
+    random_state, tune=True, class_balanced=True
+):
     """Create a random forest model using best hyperparameters or tuning
 
     Parameters
@@ -183,9 +198,15 @@ def create_random_forest_model(random_state, tune=True):
     Random Forest Model
         The model we want to create
     """
+
+    class_weight = "balanced"
+
+    if not class_balanced:
+        class_weight = None
+
     model = {
         "clf": RandomForestClassifier(
-            class_weight="balanced",
+            class_weight=class_weight,
             random_state=random_state
         )
     }
@@ -198,14 +219,22 @@ def create_random_forest_model(random_state, tune=True):
                 scipy.stats.randint(low=2, high=20)
         }
     else:
-        model[PARAM_DIST] = {
-            "randomforestclassifier__n_estimators": [65],
-            "randomforestclassifier__max_depth": [12],
+        if class_balanced:
+            model[PARAM_DIST] = {
+                "randomforestclassifier__n_estimators": [65],
+                "randomforestclassifier__max_depth": [12],
+            }
+        else:
+            model[PARAM_DIST] = {
+            "randomforestclassifier__n_estimators": [170],
+            "randomforestclassifier__max_depth": [18],
         }
     return model
 
 
-def create_SVC_model(random_state, tune=True):
+def create_SVC_model(
+    random_state, tune=True, class_balanced=True
+):
     """Create a SVC model using best hyperparameters or tuning
 
     Parameters
@@ -218,9 +247,15 @@ def create_SVC_model(random_state, tune=True):
     SVC Model
         The model we want to create
     """
+
+    class_weight = "balanced"
+
+    if not class_balanced:
+        class_weight = None
+
     model = {
         "clf": SVC(
-            class_weight="balanced",
+            class_weight=class_weight,
             random_state=random_state
         )
     }
@@ -231,10 +266,16 @@ def create_SVC_model(random_state, tune=True):
             "svc__C": [0.1, 1.0, 10, 100],
         }
     else:
-        model[PARAM_DIST] = {
-            "svc__gamma": [0.1],
-            "svc__C": [1.0]
-        }
+        if class_balanced:
+            model[PARAM_DIST] = {
+                "svc__gamma": [0.1],
+                "svc__C": [1.0]
+            }
+        else:
+            model[PARAM_DIST] = {
+                "svc__gamma": [0.1],
+                "svc__C": [1.0]
+            }
     return model
 
 
@@ -258,10 +299,18 @@ def tune_hyperparams(preprocessor, X, y, random_state, tune=True):
             2020)
     """
     classifiers = {
-        LOGISTIC_REG_NAME:
+        "Logistic Regression Balanced":
             create_logistic_regression_model(random_state, tune),
-        RANDOM_FOREST_NAME: create_random_forest_model(random_state, tune),
-        SVC_NAME: create_SVC_model(random_state, tune)
+        "Logistic Regression SMOTE":
+            create_logistic_regression_model(random_state, tune, False),
+        "Random Forest Balanced":
+            create_random_forest_model(random_state, tune),
+        "Random Forest SMOTE":
+            create_random_forest_model(random_state, tune, False),
+        "SVC Balanced":
+            create_SVC_model(random_state, tune),
+        "SVC SMOTE":
+            create_SVC_model(random_state, tune, False)
     }
 
     hyperparams_best_model = {}
@@ -271,7 +320,12 @@ def tune_hyperparams(preprocessor, X, y, random_state, tune=True):
     # find the best hyperparameters of each model
     for name, model_dict in classifiers.items():
         print("Processing", name)
-        pipe = make_pipeline(preprocessor, model_dict["clf"])
+
+        if "SMOTE" in name:
+            pipe = make_imb_pipeline(preprocessor, SMOTE(),  model_dict["clf"])
+        else:
+            pipe = make_pipeline(preprocessor, model_dict["clf"])
+
         random_search = RandomizedSearchCV(
             pipe,
             param_distributions=model_dict[PARAM_DIST],
@@ -287,6 +341,8 @@ def tune_hyperparams(preprocessor, X, y, random_state, tune=True):
             "best_model": random_search.best_estimator_,
             "best_params": random_search.best_params_,
         }
+
+    # print(hyperparams_best_model)
     return hyperparams_best_model
 
 
