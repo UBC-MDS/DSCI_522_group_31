@@ -11,6 +11,31 @@ Yazan Saleh
 -   [Results & Discussion](#results-discussion)
 -   [References](#references)
 
+<style type="text/css">
+  .float-container {
+    padding: 20px;
+    overflow: hidden;
+  }
+  
+  .float-child-left {
+      width: 60%;
+      float: left;
+      padding-bottom: 100%;
+      margin-bottom: -100%;
+  }
+  .float-child-right {
+      padding:10px;
+      width: 40%;
+      float: right;
+      padding-bottom: 100%;
+      margin-bottom: -100%;
+  }
+  table{
+    font-size:90%;
+    align:center;
+  }
+</style>
+
 ## Summary
 
 In this project, we compare 3 different algorithms with the aim of
@@ -123,10 +148,9 @@ models and assigning `class_weight` to `balanced`.
 
 <div class="figure" style="text-align: center">
 
-<img src="../img/eda/class_imbalance.png" alt="&lt;b&gt;Figure.1 Class imbalance. There is an imbalance between the two prediction classes&lt;/b&gt;" width="40%" height="10%" />
+<img src="../img/eda/class_imbalance.png" alt="&lt;b&gt;Figure.1 Class imbalance.&lt;/b&gt;" width="30%" />
 <p class="caption">
-<b>Figure.1 Class imbalance. There is an imbalance between the two
-prediction classes</b>
+<b>Figure.1 Class imbalance.</b>
 </p>
 
 </div>
@@ -169,10 +193,10 @@ and subsequently try to use RFE to better guide us at feature selection.
 
 <div class="figure" style="text-align: center">
 
-<img src="../img/eda/feature_density.png" alt="&lt;b&gt;Figure.2 Density plots of numerical features by target class. Overlapping distribution among features for the two classes&lt;/b&gt;" width="70%" height="70%" />
+<img src="../img/eda/feature_density.png" alt="&lt;b&gt;Figure.2 Density plots of numerical features by target class. &lt;br/&gt;Overlapping distribution among features for the two classes.&lt;/b&gt;" width="70%" />
 <p class="caption">
 <b>Figure.2 Density plots of numerical features by target class.
-Overlapping distribution among features for the two classes</b>
+<br/>Overlapping distribution among features for the two classes.</b>
 </p>
 
 </div>
@@ -189,7 +213,7 @@ according to `f1` score. (Table 2)
 | SVC                 |    4.1816 |      0.2814 |         0.8714 |   0.6374 |       0.7364 |
 
 **Table 2: Model selection result. Random Forest Classifier has the best
-results across scores**
+results across scores.**
 
 The model performance on the test set was less robust as `f1` score
 dropped to 0.67 when considering our class of interest, presence of
@@ -198,15 +222,23 @@ revenue, as the positive class. Overall accuracy was relatively high at
 consisting of 246 false positives and 117 false negatives as per the
 confusion matrix shown below (Figure 3).
 
+<div class="float-container">
+
+<div class="float-child-right">
+
 <div class="figure">
 
-<img src="../img/reports/confusion_matrix.png" alt="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection. High number of false positive results&lt;/b&gt;" width="50%" height="40%" />
+<img src="../img/reports/confusion_matrix.png" alt="&lt;b&gt;Figure.3 Confusion Matrix before Feature Selection. High number of false positive results.&lt;/b&gt;" width="100%" height="40%" />
 <p class="caption">
 <b>Figure.3 Confusion Matrix before Feature Selection. High number of
-false positive results</b>
+false positive results.</b>
 </p>
 
 </div>
+
+</div>
+
+<div class="float-child-left">
 
 | Class        | precision |    recall |  f1-score |      support |
 |:-------------|----------:|----------:|----------:|-------------:|
@@ -218,7 +250,11 @@ false positive results</b>
 
 **Table 3: Classification report of the best model before applying
 feature selection. High accuracy but low f1 and recalling score for the
-positive class**
+positive class.**
+
+</div>
+
+</div>
 
 We used recursive feature elimination (RFE) to attempt to achieve better
 classification performance and identify the most important features. RFE
@@ -228,15 +264,23 @@ problem. Nevertheless, fitting the model on the new dataset that
 includes these features only did not significantly affect performance as
 shown below (Table 4 & Figure 4).
 
+<div class="float-container">
+
+<div class="float-child-right">
+
 <div class="figure">
 
-<img src="../img/reports/confusion_matrix_feature_selection.png" alt="&lt;b&gt;Figure.4 Confusion Matrix after Feature Selection. Higher number of false negatives&lt;/b&gt;" width="50%" height="40%" />
+<img src="../img/reports/confusion_matrix_feature_selection.png" alt="&lt;b&gt;Figure.4 Confusion Matrix after feature selection. Higher number of false negatives.&lt;/b&gt;" width="100%" height="40%" />
 <p class="caption">
-<b>Figure.4 Confusion Matrix after Feature Selection. Higher number of
-false negatives</b>
+<b>Figure.4 Confusion Matrix after feature selection. Higher number of
+false negatives.</b>
 </p>
 
 </div>
+
+</div>
+
+<div class="float-child-left">
 
 | Class        | precision |    recall |  f1-score |     support |
 |:-------------|----------:|----------:|----------:|------------:|
@@ -248,6 +292,10 @@ false negatives</b>
 
 **Table 4: Classification report of the best model after applying
 feature selection. High accuracy but lower recall and f1 scores**
+
+</div>
+
+</div>
 
 In the context of the model’s applicability, false negatives can be
 argued to be more detrimental than false positives as they represent
