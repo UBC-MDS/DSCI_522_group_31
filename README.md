@@ -1,7 +1,7 @@
 
 # Online Purchasing Intention Predictor
 
-  - Co-authors: Yazan Saleh, Mai Le, Tran Doan Khanh Vu, Jingjing Zhi
+-   Co-authors: Yazan Saleh, Mai Le, Tran Doan Khanh Vu, Jingjing Zhi
 
 A data analysis project aiming to predict purchasing intentions of
 online shoppers.
@@ -23,7 +23,7 @@ Therefore, we recommend improving this model prior to deployment in the
 real-world.
 
 The data set used in this project is the “Online Shoppers Purchasing
-Intention” dataset provided by the [Gözalan
+Intention” dataset provided by the [GÃ¶zalan
 Group](http://www.gozalangroup.com.tr/) and used by Sakar, OC et al. in
 their 2018 analysis publsihed in [Neural Computing and
 Applications](https://link.springer.com/article/10.1007/s00521-018-3523-0)(Sakar
@@ -44,7 +44,8 @@ system information as well visitor location and type.
 
 ## Reports
 
-The final report can be found [here](/reports/report.md)
+The final report can be found
+[here](https://htmlpreview.github.io/?https://github.com/UBC-MDS/DSCI_522_group_31/blob/main/reports/report.html)
 
 ## Usage
 
@@ -57,25 +58,19 @@ the root of this project by running the following command at the root
 directory of the project. (Alternatively, you can manually install the
 dependencies listed in the `env.yaml` file)
 
-``` bash
-conda env create --file env.yaml
-conda activate online_shopping_prediction_env
-```
+    conda env create --file env.yaml
+    conda activate online_shopping_prediction_env
 
 Step 3: Run the following commands at the command line/terminal from the
 root directory of this project:
 
-``` bash
-make all
-```
+    make all
 
 To reset the project to a clean state and re-run the analysis, run the
 following command at the command line/terminal from the root directory
 of the project:
 
-``` bash
-make clean
-```
+    make clean
 
 ## Dependencies
 
@@ -84,12 +79,12 @@ Please see the project dependencies included in the root env.yaml file
 ## License
 
 All Online Purchasing Intention Predictor materials are made available
-under the **Creative Commons Attribution 2.5 Canada License** ([CC
-BY 2.5 CA](https://creativecommons.org/licenses/by/2.5/ca/)).
+under the **Creative Commons Attribution 2.5 Canada License** ([CC BY
+2.5 CA](https://creativecommons.org/licenses/by/2.5/ca/)).
 
 # References
 
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 
 <div id="ref-Dua:2019">
 
