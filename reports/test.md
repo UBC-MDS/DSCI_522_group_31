@@ -15,9 +15,9 @@ revenue, as the positive class. Overall accuracy was relatively high at
 consisting of 246 false positives and 117 false negatives as per the
 confusion matrix shown below (Figure 3).
 
-<table border="none">
-<tr border="none">
-<td border="none">
+<table style="border:none; border-collapse:collapse; cellspacing:0; cellpadding:0">
+<tr>
+<td style="border:none">
 
 <div class="figure">
 
@@ -30,7 +30,7 @@ false positive results.</b>
 </div>
 
 </td>
-<td border="none">
+<td style="border:none">
 
 | Class        | precision |    recall |  f1-score |      support |
 |:-------------|----------:|----------:|----------:|-------------:|
