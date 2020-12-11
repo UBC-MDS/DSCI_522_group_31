@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0076)file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-4a4c31229ce.html -->
+<!-- saved from url=(0077)file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-3aa0793c182d.html -->
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 
@@ -601,15 +601,15 @@ body {
 <h1 id="predicting-online-shoppers-purchasing-intentions">Predicting online shoppers’ purchasing intentions</h1>
 <p>Yazan Saleh 27/11/2020</p>
 <ul>
-<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-4a4c31229ce.html#summary">Summary</a></li>
-<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-4a4c31229ce.html#introduction">Introduction</a></li>
-<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-4a4c31229ce.html#methodology">Methodology</a>
+<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-3aa0793c182d.html#summary">Summary</a></li>
+<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-3aa0793c182d.html#introduction">Introduction</a></li>
+<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-3aa0793c182d.html#methodology">Methodology</a>
 <ul>
-<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-4a4c31229ce.html#data">Data</a></li>
-<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-4a4c31229ce.html#analysis">Analysis</a></li>
+<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-3aa0793c182d.html#data">Data</a></li>
+<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-3aa0793c182d.html#analysis">Analysis</a></li>
 </ul></li>
-<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-4a4c31229ce.html#results-discussion">Results &amp; Discussion</a></li>
-<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-4a4c31229ce.html#references">References</a></li>
+<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-3aa0793c182d.html#results-discussion">Results &amp; Discussion</a></li>
+<li><a href="file:///C:/Users/User/AppData/Local/Temp/RtmpI1LPL1/preview-3aa0793c182d.html#references">References</a></li>
 </ul>
 <style type="text/css">
   .float-container {
@@ -637,7 +637,7 @@ body {
 </style>
 
 <h2 id="summary">Summary</h2>
-<p>In this project, we compare 3 different algorithms with the aim of building a classification model to predict purchasing intentions of online shoppers given browser session data and pageview data. We also tried each algorithms with both setting the weights so that the classes are “equal” (<code>class_weight="balanced"</code>) and SMOTE to see which approach will better address the class imbalance issue. Given our dataset, random forest classifier with SMOTE was identified as the best model compared to support vector machine and logistic regression classifiers. Although the model performed relatively well in terms of accuracy with a score of 0.89, its performance was less robust when scored using <code>f1</code> metric. Specifically, the model had an <code>f1</code> score of 0.67 and mis-classified 336 observations, 146 of which were false negatives. The 146 incorrect classifications are significant as they represent potential sources of missed revenue for e-commerce businesses. Therefore, we recommend improving this model prior to deployment in the real-world.</p>
+<p>In this project, we compare 3 different algorithms with the aim of building a classification model to predict purchasing intentions of online shoppers given browser session data and pageview data. We also tried each algorithm with both setting the weights so that the classes are “equal” (<code>class_weight="balanced"</code>) and SMOTE to see which approach will better address the class imbalance issue. Given our dataset, random forest classifier with SMOTE was identified as the best model compared to support vector machine and logistic regression classifiers. Although the model performed relatively well in terms of accuracy with a score of 0.89, its performance was less robust when scored using <code>f1</code> metric. Specifically, the model had an <code>f1</code> score of 0.67 and mis-classified 336 observations, 146 of which were false negatives. The 146 incorrect classifications are significant as they represent potential sources of missed revenue for e-commerce businesses. Therefore, we recommend improving this model prior to deployment in the real-world.</p>
 <h2 id="introduction">Introduction</h2>
 <p>With the rising popularity of online shopping, particularly in the wake of the 2020 coronavirus pandemic, there exists a strong growth opportunity for businesses employing e-commerce solutions. While increasing overall traffic to online stores is a critical first step, higher traffic does not always convert into increased sales. Online visitors may exit the site without making a purchase for a variety of reasons including: loading times, website layout, pricing, and others.</p>
 <p>In this project, we attempt to use machine learning to predict whether a visitor of an online shopping website is intending on making a purchase based on session data that looks at the pages they visit, the duration of each visit, and the source of traffic among other factors.</p>

@@ -13,7 +13,7 @@ About
 In this project, we compare 3 different algorithms with the aim of
 building a classification model to predict purchasing intentions of
 online shoppers given browser session data and pageview data. We also
-tried each algorithms with both setting the weights so that the classes
+tried each algorithm with both setting the weights so that the classes
 are “equal” (`class_weight="balanced"`) and SMOTE to see which approach
 will better address the class imbalance issue. Given our dataset, random
 forest classifier with SMOTE was identified as the best model compared
