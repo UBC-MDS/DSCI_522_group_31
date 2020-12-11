@@ -40,7 +40,7 @@ library(tidyverse, quietly = TRUE)
 
 ## Summary
 
-In this project, we compare 3 different algorithms with the aim of building a classification model to predict purchasing intentions of online shoppers given browser session data and pageview data. Given our dataset, random forest classifier was identified as the best model compared to support vector machine and logistic regression classifiers. Although the model performed relatively well in terms of accuracy with a score of 0.88, its performance was less robust when scored using `f1` metric. Specifically, the model had an `f1` score of 0.66 and mis-classified 376 observations, 131 of which were false negatives. The 131 incorrect classifications are significant as they represent potential sources of missed revenue for e-commerce businesses. Therefore, we recommend improving this model prior to deployment in the real-world.
+In this project, we compare 3 different algorithms with the aim of building a classification model to predict purchasing intentions of online shoppers given browser session data and pageview data. We also tried each algorithms with both setting the weights so that the classes are "equal" (`class_weight="balanced"`) and SMOTE to see which approach will better address the class imbalance issue. Given our dataset, random forest classifier with SMOTE was identified as the best model compared to support vector machine and logistic regression classifiers. Although the model performed relatively well in terms of accuracy with a score of 0.89, its performance was less robust when scored using `f1` metric. Specifically, the model had an `f1` score of 0.67 and mis-classified 336 observations, 146 of which were false negatives. The 146 incorrect classifications are significant as they represent potential sources of missed revenue for e-commerce businesses. Therefore, we recommend improving this model prior to deployment in the real-world.
 
 ## Introduction
 
@@ -86,7 +86,7 @@ Values of feature 1-6 are derived from the visited pages' URL and reflected in r
 Among those features, there are some features that might be important to predict the target: 'ProductRelated_Duration', 'BounceRates', 'ExitRates', 'PageValues', 'Month', 'TrafficType' and 'VisitorType'.
 
 ### Analysis
-The dataset has class imbalance whereby there are many more observations corresponding to visitors that do not end up contributing to revenue (i.e. target `Revenue` class value is `False`) compared to the number of observations corresponding to visitors that do end up contributing to revenue (i.e. target `revenue` class value is `True`) (Figure 1). Class imbalance will be dealt with by changing the training procedures of our models and assigning `class_weight` to `balanced`.
+The dataset has class imbalance whereby there are many more observations corresponding to visitors that do not end up contributing to revenue (i.e. target `Revenue` class value is `False`) compared to the number of observations corresponding to visitors that do end up contributing to revenue (i.e. target `revenue` class value is `True`) (Figure 1). Class imbalance will be dealt with by changing the training procedures of our models and assigning `class_weight` to `balanced`. Another approach that we would try is using SMOTE.
 
 ```{r echo=FALSE, fig.cap = "<b>Figure.1 Class imbalance.</b>", fig.align="center", out.width='30%'}
 knitr::include_graphics('../img/eda/class_imbalance.png')
@@ -100,28 +100,28 @@ The analysis was performed using the Python programming language [@Python] along
 
 ## Results & Discussion
 
-Prior to fitting the model, we looked at how the distribution of each of the features in the training set varies between the two classes (revenue generator: orange, not a revenue generator: blue). This visualization shows us overlapping in the distribution of features across the two target classes, although their spreads differ in some cases (Figure 2). As a result, we opted to include all features in the initial analysis and subsequently try to use RFE to better guide us at feature selection.
+Prior to fitting the model, we looked at how the distribution of each of the features in the training set varies between the two classes (revenue generator: orange, not a revenue generator: blue). This visualization shows us some overlapping in the distribution of features across the two target classes, although their spreads differ in some cases (Figure 2). As a result, we opted to include all features in the initial analysis and subsequently try to use RFE to better guide us at feature selection.
 
 ```{r echo=FALSE, fig.cap = "<b>Figure.2 Density plots of numerical features by target class. <br/>Overlapping distribution among features for the two classes.</b>", fig.align="center", out.width='70%'}
 knitr::include_graphics('../img/eda/feature_density.png')
 ```
 
-Following random search hyperparameter optimization and fitting on the entire training dataset, random forest classifier with hyperparameters `max_depth = 13` and `n_estimators = 65` was the best performing model according to `f1` score. (Table 2)
+Following random search hyperparameter optimization and fitting on the entire training dataset, random forest classifier with hyperparameters `max_depth = 18` and `n_estimators = 170` using SMOTE was the best performing model according to `f1` score. (Table 2)
 
 ```{r load model_comparison, echo=FALSE, warning=FALSE, message=FALSE}
 comparison_table = read_csv("../data/processed/model_selection_result.csv")
 comparison_table <- comparison_table %>% select(-X1)
 colnames(comparison_table)[1]="Model"
-knitr::kable(comparison_table, caption = "**Table 2: Model selection result. Random Forest Classifier has the best results across scores.**")
+knitr::kable(comparison_table, caption = "**Table 2: Model selection result. Random Forest Classifier with SMOTE has the best f1 score.**")
 ```
 
-The model performance on the test set was less robust as `f1` score dropped to 0.67 when considering our class of interest, presence of revenue, as the positive class. Overall accuracy was relatively high at 0.88 (Table 3) although the model mis-classified 363 observations consisting of 246 false positives and 117 false negatives as per the confusion matrix shown below (Figure 3).
+The model performance on the test set was less robust as `f1` score dropped to 0.67 when considering our class of interest, presence of revenue, as the positive class. Overall accuracy was relatively high at 0.89 (Table 3) although the model mis-classified 336 observations consisting of 190 false positives and 146 false negatives as per the confusion matrix shown below (Figure 3).
 
 <div class="float-container">
 
-  <div class="float-child-right">
+  <div class="float-child-right" style="padding-top:5px">
 
-```{r echo=FALSE, fig.cap = "<b>Figure.3 Confusion Matrix before Feature Selection. High number of false positive results.</b>", out.width='100%',out.height='40%'}
+```{r echo=FALSE, fig.cap = "<b>Figure.3 Confusion Matrix before Feature Selection. High number of false positive and false negative results.</b>", out.width='100%',out.height='40%'}
 knitr::include_graphics("../img/reports/confusion_matrix.png")
 ```
 </div>
@@ -136,11 +136,11 @@ knitr::kable(cr, caption = "**Table 3: Classification report of the best model b
 </div>
 </div>
 
-We used recursive feature elimination (RFE) to attempt to achieve better classification performance and identify the most important features. RFE retained 37/74 features after transformation which came from 10 features out of the original 17 as being most important to the classification problem. Nevertheless, fitting the model on the new dataset that includes these features only did not significantly affect performance as shown below (Table 4 & Figure 4).
+We used recursive feature elimination (RFE) to attempt to achieve better classification performance and identify the most important features. RFE retained 37/74 features after transformation which came from 10 features out of the original 17 as being most important to the classification problem. Nevertheless, fitting the model on the new dataset that includes these features leads to lower f1 and recall score as shown below (Table 4 & Figure 4).
 <div class="float-container">
 
-  <div class="float-child-right">
-```{r echo=FALSE, fig.cap = "<b>Figure.4 Confusion Matrix after feature selection. Higher number of false negatives.</b>", out.width='100%',out.height='40%'}
+  <div class="float-child-right" style="padding-top:5px">
+```{r echo=FALSE, fig.cap = "<b>Figure.4 Confusion Matrix after feature selection. Higher number of false negatives results.</b>", out.width='100%',out.height='40%'}
 knitr::include_graphics("../img/reports/confusion_matrix_feature_selection.png")
 ```
 </div>
@@ -155,8 +155,8 @@ knitr::kable(cr, caption = "**Table 4: Classification report of the best model a
 </div>
 </div>
 
-In the context of the model's applicability, false negatives can be argued to be more detrimental than false positives as they represent untapped potential revenue sources. Therefore, we should prefer a model with higher recall (sensitivty) over one with higher precision, which was the case here. Nevertheless, and given the non-small number of false negatives, our model might need further refinement before implementation in the real-world.
+In the context of the model's applicability, false negatives can be argued to be more detrimental than false positives as they represent untapped potential revenue sources. Therefore, we should prefer a model with higher recall (sensitivty) over one with higher precision, which was the case here. Nevertheless, given the non-small number of false negatives, our model might need further refinement before implementation in the real-world.
 
-One way of improving this model would be to employ oversampling to address the class imbalance problem. Although we attempted to address class imbalance by adjusting the weights associated with the target class, Sakar et. al were able to achieve much better `f1` scores using oversampled data sets and with similar algorithms (namely SVC and random forest) [@Sakar2019]. Further, we could use a different method to identify the most important features for this classification problem and compare performance to the recursive feature elimination method we employed here. Sakar et. al feature selection results include some features from the same dataset, such as `Product related` and `Administrative`, that were not identified by our RFE search. This indicates that visiting `Product related` and `Administrative` pages is important to the classification algorithm although our model and current feature selection methodology was not able to identify that.
+One way of improving this model would be to employ a better oversampling method to address the class imbalance problem. Although we attempted to address class imbalance by adjusting the weights associated with the target class and using SMOTE, Sakar et. al were able to achieve much better `f1` scores using oversampled data sets and with similar algorithms (namely SVC and random forest) [@Sakar2019]. Further, we could use a different method to identify the most important features for this classification problem and compare performance to the recursive feature elimination method we employed here. Sakar et. al's feature selection results include some features from the same dataset, such as `Product related` and `Administrative`, that were not identified by our RFE search. This indicates that visiting `Product related` and `Administrative` pages is important to the classification algorithm although our model and current feature selection methodology were not able to identify that.
 
 # References
