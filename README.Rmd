@@ -20,16 +20,34 @@ The final report can be found [here](https://htmlpreview.github.io/?https://gith
 
 To replicate this analysis, please follow these steps:
 
-Step 1: Clone this GitHub repository
+### Step 1: Clone this GitHub repository
 
-Step 2: Create and activate a conda envrionment using the `env.yaml` at the root of this project by running the following command at the root directory of the project. (Alternatively, you can manually install the dependencies listed in the `env.yaml` file)
+### Step 2A: Using Docker
+
+*note - the instructions in this section also depends on running this in a unix shell (e.g., terminal or Git Bash)*
+
+To replicate the analysis, install [Docker](https://www.docker.com/get-started). Then run the following command at the command line/terminal from the root directory of this project:
+
+```
+docker run --rm -v /$(pwd):/home/online_shopping_predictor lephanthuymai/dsci_522_group_31:latest make -C /home/online_shopping_predictor all
+```
+
+To reset the repo to a clean state, with no intermediate or results files, run the following command at the command line/terminal from the root directory of this project:
+
+```
+docker run --rm -v /$(pwd):/home/online_shopping_predictor lephanthuymai/dsci_522_group_31:latest make -C /home/online_shopping_predictor clean
+```
+
+### Step 2B: Without using Docker
+
+Create and activate a conda environment using the `env.yaml` at the root of this project by running the following command at the root directory of the project. (Alternatively, you can manually install the dependencies listed in the `env.yaml` file)
 
 ```bash
 conda env create --file env.yaml
 conda activate online_shopping_prediction_env
 ```
 
-Step 3: Run the following commands at the command line/terminal from the root directory of this project:
+Run the following commands at the command line/terminal from the root directory of this project:
 
 ```bash
 make all
