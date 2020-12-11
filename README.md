@@ -66,6 +66,8 @@ root directory of this project:
 
     make all
 
+![Makefile Dependency Graph](img/Makefile.png)
+
 To reset the project to a clean state and re-run the analysis, run the
 following command at the command line/terminal from the root directory
 of the project:

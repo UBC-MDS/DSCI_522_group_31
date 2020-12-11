@@ -34,6 +34,7 @@ Step 3: Run the following commands at the command line/terminal from the root di
 ```bash
 make all
 ```
+![Makefile Dependency Graph](img/Makefile.png)
 
 To reset the project to a clean state and re-run the analysis, run the following command at the command line/terminal from the root directory of the project:
 
