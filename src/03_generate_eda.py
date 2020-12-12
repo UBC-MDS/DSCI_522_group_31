@@ -19,6 +19,9 @@ from selenium import webdriver
 from docopt import docopt
 import feather
 
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+
 opt = docopt(__doc__)
 
 
@@ -32,7 +35,9 @@ def main(in_file, out_folder):
     if in_extension == "csv":
         df = pd.read_csv(in_file)
     elif in_extension == "feather":
-        df = feather.read_dataframe(in_file,)
+        df = feather.read_dataframe(
+            in_file,
+        )
     else:
         print("Unknown data type", in_file)
         return
@@ -45,7 +50,16 @@ def main(in_file, out_folder):
     # Step 3: Generate the EDAs
     EDAs = ["class_imbalance", "feature_density", "feature_correlation"]
 
-    driver = webdriver.Chrome()
+    # stop openning Chrome when saving plot
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("start-maximized")  #
+    chrome_options.add_argument("disable-infobars")
+    chrome_options.add_argument("--disable-extensions")
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+
     alt.data_transformers.disable_max_rows()
 
     for index, EDA in enumerate(EDAs):
