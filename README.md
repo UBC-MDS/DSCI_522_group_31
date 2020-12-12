@@ -103,7 +103,9 @@ of the project:
 Dependencies
 ------------
 
-Please see the project dependencies included in the root env.yaml file
+Please see the project dependencies included in the root env.yaml file.
+
+If you choose to not use `Docker` to run the project, you also need to have [Chromium 88](https://www.google.com/intl/en_ca/chrome/beta/) installed. This is a requirement for plot generation and saving through `altair`.
 
 License
 -------
